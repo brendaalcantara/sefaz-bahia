@@ -1,0 +1,9 @@
+.DS_Store
+.impeccable/
+/DESIGN.md
+/PRODUCT.md
+/downloads/
+*.pdf
+*.docx
+*.epub
+rota-fiscal-progresso-*.json

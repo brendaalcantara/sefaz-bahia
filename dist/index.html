@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b111a">
+    <meta name="description" content="Apostila e painel de estudos para Auditor Fiscal da SEFAZ-BA, com progresso salvo localmente no navegador.">
+    <title>Rota Fiscal · Estudos SEFAZ-BA</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="content.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#app-main">Pular para o conteúdo</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Navegação principal">
+        <a class="brand" href="#inicio" data-view="today" aria-label="Rota Fiscal, início">
+          <span class="brand-mark" aria-hidden="true">RF</span>
+          <span class="brand-copy"><strong>ROTA FISCAL</strong><small>SEFAZ · BAHIA</small></span>
+        </a>
+
+        <div class="contest-status">
+          <span class="status-pip" aria-hidden="true"></span>
+          <div><strong>PRÉ-EDITAL</strong><small>Plano indicativo · 90 dias</small></div>
+        </div>
+
+        <nav class="route-nav" aria-label="Seções de estudo">
+          <span class="nav-caption">ESPAÇO DE ESTUDO</span>
+          <button class="nav-link is-active" type="button" data-view="today" aria-current="page">
+            <span class="nav-symbol nav-symbol-home" aria-hidden="true"><i></i></span><span>Hoje</span>
+          </button>
+          <button class="nav-link" type="button" data-view="apostila">
+            <span class="nav-symbol nav-symbol-book" aria-hidden="true"><i></i></span><span>Apostila</span>
+          </button>
+          <button class="nav-link" type="button" data-view="plan">
+            <span class="nav-symbol nav-symbol-route" aria-hidden="true"><i></i></span><span>Cronograma</span>
+          </button>
+          <button class="nav-link" type="button" data-view="review">
+            <span class="nav-symbol nav-symbol-review" aria-hidden="true"><i></i></span><span>Revisão</span>
+          </button>
+          <button class="nav-link" type="button" data-view="questions">
+            <span class="nav-symbol nav-symbol-quiz" aria-hidden="true"><i></i></span><span>Questões</span>
+          </button>
+          <button class="nav-link" type="button" data-view="essay">
+            <span class="nav-symbol nav-symbol-pen" aria-hidden="true"><i></i></span><span>Discursiva</span>
+          </button>
+          <button class="nav-link" type="button" data-view="sources">
+            <span class="nav-symbol nav-symbol-source" aria-hidden="true"><i></i></span><span>Fontes</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="local-indicator"><span class="local-dot" aria-hidden="true"></span><span>Dados salvos neste navegador</span></div>
+          <p>Seu ritmo. Seu percurso. Progresso guardado localmente.</p>
+        </div>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="sidebar">
+            <span class="menu-glyph" aria-hidden="true"><i></i><i></i><i></i></span><span>Menu</span>
+          </button>
+          <div class="topbar-context">
+            <span class="topbar-label">CENTRAL DE ESTUDOS</span>
+            <span class="topbar-separator" aria-hidden="true">/</span>
+            <span id="topbar-section">Hoje</span>
+          </div>
+          <div class="topbar-actions">
+            <button class="topbar-button" type="button" id="export-progress" title="Baixar uma cópia do seu progresso">
+              <span class="button-icon export-icon" aria-hidden="true"></span><span>Exportar</span>
+            </button>
+            <button class="topbar-button" type="button" id="import-progress" title="Restaurar progresso de um arquivo JSON">
+              <span class="button-icon import-icon" aria-hidden="true"></span><span>Importar</span>
+            </button>
+            <input id="import-file" type="file" accept="application/json,.json" hidden>
+          </div>
+        </header>
+
+        <main class="main-content" id="app-main" tabindex="-1">
+          <div id="app-view" aria-live="polite" aria-atomic="false"></div>
+        </main>
+
+        <footer class="workspace-footer">
+          <span>Preparação independente · Não afiliada à SEFAZ-BA</span>
+          <button class="footer-action" type="button" id="reset-progress">Apagar meu progresso</button>
+        </footer>
+      </div>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
