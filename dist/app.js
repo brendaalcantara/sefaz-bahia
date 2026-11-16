@@ -2,6 +2,10 @@
   "use strict";
 
   const storageKey = "rotaFiscalProgress.v1";
+  const driveCatalogStorageKey = "rotaFiscalDriveCatalog.v1";
+  const driveCatalogUrl = "https://drive.google.com/file/d/19VMkog1xvU2G83dduhwgzPjiGLTOgDmf/view";
+  const driveCatalogMaxBytes = 300 * 1024;
+  const driveFileIdPattern = /^[A-Za-z0-9_-]{10,150}$/;
   const content = window.STUDY_CONTENT || {};
   const appShell = document.querySelector(".app-shell");
   const appView = document.querySelector("#app-view");
@@ -21,6 +25,12 @@
   const lessons = Array.isArray(content.lessons) ? content.lessons : [];
   const questions = Array.isArray(content.questions) ? content.questions : [];
   const cases = Array.isArray(content.cases) ? content.cases : [];
+  const preparedStudyWeeks = Array.isArray(content.preparedStudyWeeks) ? content.preparedStudyWeeks : [];
+  const preparedStudyLessons = preparedStudyWeeks.flatMap((week) =>
+    (Array.isArray(week.days) ? week.days : []).flatMap((day) => Array.isArray(day.lessons) ? day.lessons : []));
+  const preparedStudyById = new Map(preparedStudyLessons.map((item) => [item.id, item]));
+  const preparedStudyLessonIds = new Set(preparedStudyById.keys());
+  const preparedStudyGroupIds = new Set(preparedStudyLessons.map((item) => item.goalId).filter(Boolean));
   const weeks = Array.isArray(content.weeks) ? content.weeks : [];
   const sources = Array.isArray(content.sources) ? content.sources : [];
   const glossary = Array.isArray(content.glossary) ? content.glossary : [];
@@ -33,6 +43,22 @@
   const caseIds = new Set(cases.map((item) => item.id));
   const rubricKeys = ["command", "content", "grounds", "organization", "language"];
   const blockMinutes = [75, 75, 30];
+  const studyTracks = ["auditor-ti", "agente-geral", "comuns"];
+  const studyDurations = [25, 45, 60];
+  const studyTrackLabels = { "auditor-ti": "Auditor TI", "agente-geral": "Agente de Tributos · geral", comuns: "Matérias comuns" };
+  const driveTrackLabels = { "auditor-ti": "Auditor TI", "agente-geral": "Agente de Tributos — geral" };
+  const commonStudySubjectLabels = [
+    "Português",
+    "Estatística",
+    "Igualdade racial e de gênero",
+    "Direito Tributário",
+    "Constitucional / Administrativo"
+  ];
+  const studyPhaseMinutes = {
+    25: [10, 5, 8, 2],
+    45: [20, 8, 13, 4],
+    60: [25, 10, 20, 5]
+  };
   const reviewIntervals = [1, 7, 30];
   const todayKey = dateKey(new Date());
   let toastTimer = 0;
@@ -55,6 +81,15 @@
   let essayTimerInterval = 0;
   let essayTimerStartedAt = 0;
   let essayTimerBaseSeconds = 0;
+  let studyTimerInterval = 0;
+  let studyNotesSaveTimer = 0;
+  let studyCatalog = null;
+  let studyCatalogInput = null;
+  let studyTrackFilter = "comuns";
+  let studySubjectFilter = "Todas as matérias";
+  let studyCatalogSearch = "";
+  let selectedStudyFileId = "";
+  let selectedPreparedWeek = 1;
   let regionRefs = {};
   let heroSurface = null;
   let heroControls = null;
@@ -108,7 +143,12 @@
       reviews: {},
       drafts: {},
       activeSimulation: null,
-      simulations: []
+      simulations: [],
+      activeStudySession: null,
+      studySessions: [],
+      studyReviews: [],
+      completedPreparedStudyIds: [],
+      studyGoals: {}
     };
   }
 
@@ -158,6 +198,14 @@
       };
     }
     next.wrongQuestionIds = Object.keys(next.answersByQuestion).filter((id) => !next.answersByQuestion[id].correct);
+    next.completedPreparedStudyIds = Array.isArray(source.completedPreparedStudyIds)
+      ? Array.from(new Set(source.completedPreparedStudyIds.filter((id) => preparedStudyLessonIds.has(id)))).slice(0, 500)
+      : [];
+    const rawStudyGoals = isRecord(source.studyGoals) ? source.studyGoals : {};
+    preparedStudyGroupIds.forEach((id) => {
+      const value = Number(rawStudyGoals[id]);
+      if (Number.isFinite(value)) next.studyGoals[id] = Math.max(1, Math.min(100, Math.round(value)));
+    });
 
     if (Array.isArray(source.readLessonIds)) {
       next.readLessonIds = Array.from(new Set(source.readLessonIds.filter((id) => lessonIds.has(id))));
@@ -212,6 +260,97 @@
         correct: Number.isInteger(correct) ? Math.max(0, Math.min(Number.isInteger(total) ? total : 1, correct)) : 0
       };
     });
+    const rawStudySessions = Array.isArray(source.studySessions) ? source.studySessions : [];
+    next.studySessions = rawStudySessions.slice(0, 100).filter(isRecord).map((entry, index) => {
+      const duration = Number(entry.durationMinutes);
+      const elapsed = Number(entry.elapsedSeconds);
+      const theme = typeof entry.theme === "string" ? entry.theme.trim().slice(0, 200) : "";
+      if (!studyTracks.includes(entry.track) || !theme || !studyDurations.includes(duration) ||
+        !validDateTime(entry.startedAt) || !validDateTime(entry.completedAt) || !Number.isFinite(elapsed)) return null;
+      const fileId = typeof entry.fileId === "string" && driveFileIdPattern.test(entry.fileId) ? entry.fileId : "";
+      return {
+        id: typeof entry.id === "string" ? entry.id.slice(0, 80) : "sessao-importada-" + index,
+        track: entry.track,
+        theme,
+        fileId,
+        fileTitle: fileId && typeof entry.fileTitle === "string" ? entry.fileTitle.trim().slice(0, 200) : "",
+        fileSubject: fileId && typeof entry.fileSubject === "string" ? entry.fileSubject.trim().slice(0, 120) : "",
+        pdfTrack: ["auditor-ti", "agente-geral"].includes(entry.pdfTrack) ? entry.pdfTrack : entry.track,
+        preparedLessonId: preparedStudyLessonIds.has(entry.preparedLessonId) ? entry.preparedLessonId : "",
+        sourceId: typeof entry.sourceId === "string" && sourceById.has(entry.sourceId) ? entry.sourceId : "",
+        recallNote: typeof entry.recallNote === "string" ? entry.recallNote.slice(0, 600) : "",
+        errorNote: typeof entry.errorNote === "string" ? entry.errorNote.slice(0, 600) : "",
+        durationMinutes: duration,
+        startedAt: entry.startedAt,
+        completedAt: entry.completedAt,
+        elapsedSeconds: Math.max(0, Math.min(duration * 60, Math.floor(elapsed)))
+      };
+    }).filter(Boolean);
+    const rawStudyReviews = Array.isArray(source.studyReviews) ? source.studyReviews : [];
+    const seenStudyReviewIds = new Set();
+    next.studyReviews = rawStudyReviews.slice(0, 300).filter(isRecord).map((entry) => {
+      const id = typeof entry.id === "string" ? entry.id.slice(0, 80) : "";
+      const fileId = typeof entry.fileId === "string" && driveFileIdPattern.test(entry.fileId) ? entry.fileId : "";
+      const track = ["auditor-ti", "agente-geral"].includes(entry.track) ? entry.track : "";
+      const fileTitle = typeof entry.fileTitle === "string" ? entry.fileTitle.trim().slice(0, 200) : "";
+      const fileSubject = typeof entry.fileSubject === "string" ? entry.fileSubject.trim().slice(0, 120) : "";
+      const cycleIndex = Number(entry.cycleIndex);
+      if (!/^[A-Za-z0-9_-]{1,80}$/.test(id) || seenStudyReviewIds.has(id) || !fileId || !track || !fileTitle ||
+        !validDateTime(entry.completedAt) || !validDateTime(entry.dueAt) || !Number.isInteger(cycleIndex) || cycleIndex < 0 || cycleIndex >= reviewIntervals.length) return null;
+      seenStudyReviewIds.add(id);
+      return { id, fileId, fileTitle, fileSubject, track, completedAt: entry.completedAt, dueAt: entry.dueAt, cycleIndex };
+    }).filter(Boolean);
+    if (isRecord(source.activeStudySession)) {
+      const session = source.activeStudySession;
+      const track = studyTracks.includes(session.track) ? session.track : "";
+      const theme = typeof session.theme === "string" ? session.theme.trim().slice(0, 200) : "";
+      const duration = Number(session.durationMinutes);
+      const startedAt = validDateTime(session.startedAt) ? session.startedAt : "";
+      const targetMs = duration * 60000;
+      const fileId = typeof session.fileId === "string" && driveFileIdPattern.test(session.fileId) ? session.fileId : "";
+      const fileTitle = fileId && typeof session.fileTitle === "string" ? session.fileTitle.trim().slice(0, 200) : "";
+      const fileSubject = fileId && typeof session.fileSubject === "string" ? session.fileSubject.trim().slice(0, 120) : "";
+      const recallNote = typeof session.recallNote === "string" ? session.recallNote.slice(0, 600) : "";
+      const errorNote = typeof session.errorNote === "string" ? session.errorNote.slice(0, 600) : "";
+      if (track && theme && studyDurations.includes(duration) && startedAt && session.status === "running" && validDateTime(session.deadlineAt)) {
+        const remaining = Math.max(0, Math.min(targetMs, Date.parse(session.deadlineAt) - Date.now()));
+        next.activeStudySession = {
+          id: typeof session.id === "string" ? session.id.slice(0, 80) : "sessao-importada",
+          track,
+          theme,
+          fileId,
+          fileTitle,
+          fileSubject,
+          pdfTrack: ["auditor-ti", "agente-geral"].includes(session.pdfTrack) ? session.pdfTrack : track,
+          preparedLessonId: preparedStudyLessonIds.has(session.preparedLessonId) ? session.preparedLessonId : "",
+          sourceId: typeof session.sourceId === "string" && sourceById.has(session.sourceId) ? session.sourceId : "",
+          recallNote,
+          errorNote,
+          durationMinutes: duration,
+          status: "running",
+          startedAt,
+          deadlineAt: new Date(Date.now() + remaining).toISOString()
+        };
+      } else if (track && theme && studyDurations.includes(duration) && startedAt && session.status === "paused" && Number.isFinite(session.remainingMs)) {
+        next.activeStudySession = {
+          id: typeof session.id === "string" ? session.id.slice(0, 80) : "sessao-importada",
+          track,
+          theme,
+          fileId,
+          fileTitle,
+          fileSubject,
+          pdfTrack: ["auditor-ti", "agente-geral"].includes(session.pdfTrack) ? session.pdfTrack : track,
+          preparedLessonId: preparedStudyLessonIds.has(session.preparedLessonId) ? session.preparedLessonId : "",
+          sourceId: typeof session.sourceId === "string" && sourceById.has(session.sourceId) ? session.sourceId : "",
+          recallNote,
+          errorNote,
+          durationMinutes: duration,
+          status: "paused",
+          startedAt,
+          remainingMs: Math.max(0, Math.min(targetMs, Math.floor(Number(session.remainingMs))))
+        };
+      }
+    }
     if (isRecord(source.activeSimulation)) {
       const simulation = source.activeSimulation;
       const ids = Array.isArray(simulation.questionIds)
@@ -1795,9 +1934,9 @@
     currentView = "essay";
     appShell.dataset.view = "essay";
     setHeaderMode("essay");
-    const { page, title } = pageShell("essay", "Escreva um estudo de caso", "Propostas originais para treinar análise, fundamento e comunicação. O cronômetro, rascunho e autoavaliação ficam salvos apenas neste navegador.");
+    const { page, title } = pageShell("essay", "Treino de discursiva", "Comece pelo caderno de Auditor TI de 2019 e pratique os temas em casos autorais. Seu rascunho, cronômetro e autoavaliação ficam neste navegador.");
     const notice = el("div", "notice-banner essay-notice");
-    notice.append(el("strong", "", "Treino formativo · critérios próprios"), el("span", "", "O edital futuro definirá o gênero, limites e critérios reais da prova."));
+    notice.append(el("strong", "", "Um bloco por semana"), el("span", "", "Faça a prova de 2019 primeiro. Nas três sessões seguintes, treine BPMN, SQL e valor agregado. Na quinta, refaça os itens em que errou. Use o espelho e a autoavaliação após responder."));
     page.append(notice);
 
     const casePicker = el("div", "case-picker-wrap");
@@ -1828,6 +1967,12 @@
     caseHeader.append(el("h2", "", caseItem.title));
     caseHeader.append(el("p", "case-area-meta", caseItem.area || "Estudo de caso"));
     caseHeader.append(el("p", "case-prompt", caseItem.prompt));
+    const caseSource = sourceFor(caseItem.source);
+    if (caseItem.sourceLabel && caseSource) {
+      const sourceLine = el("div", "source-line");
+      sourceLine.append(externalLink(caseSource, caseItem.sourceLabel));
+      caseHeader.append(sourceLine);
+    }
     page.append(caseHeader);
 
     const caseLayout = el("div", "essay-layout");
@@ -1849,7 +1994,7 @@
     const textarea = el("textarea", "essay-textarea");
     textarea.id = "essay-draft";
     textarea.maxLength = 30000;
-    textarea.placeholder = "Escreva uma resposta completa: apresente o problema, fundamente, aplique a regra aos fatos e conclua com limites claros.";
+    textarea.placeholder = "Responda na ordem dos itens. Inclua os comandos, cálculos ou justificativas que a questão pedir.";
     textarea.value = caseDraft.text || "";
     textarea.setAttribute("aria-describedby", "essay-word-count draft-save-status");
     textareaLabel.append(textarea);
@@ -1866,19 +2011,28 @@
     const guide = el("aside", "essay-guide");
     guide.append(el("h3", "", "Estrutura de resposta"));
     const outline = el("ol", "response-outline");
-    ["Apresente a questão e delimite os fatos conhecidos.", "Indique as normas e os fundamentos que se aplicam.", "Relacione cada regra aos elementos do caso.", "Conclua com encaminhamento e ressalvas sobre o que falta confirmar."].forEach((step) => outline.append(el("li", "", step)));
+    (caseItem.outline || ["Apresente a questão e delimite os fatos conhecidos.", "Indique as normas e os fundamentos que se aplicam.", "Relacione cada regra aos elementos do caso.", "Conclua com encaminhamento e ressalvas sobre o que falta confirmar."]).forEach((step) => outline.append(el("li", "", step)));
     guide.append(outline);
     guide.append(el("h3", "guide-subhead", "Pontos do enunciado"));
     const steps = el("ol", "case-steps");
     (caseItem.steps || []).forEach((step) => steps.append(el("li", "", step)));
     guide.append(steps);
-    const caseSource = sourceFor(caseItem.source);
-    const sourceLine = el("div", "source-line");
-    sourceLine.append(el("span", "field-label", "FONTE DE APOIO"));
-    if (caseSource) sourceLine.append(externalLink(caseSource, caseSource.title));
-    guide.append(sourceLine);
+    if (caseSource && !caseItem.sourceLabel) {
+      const sourceLine = el("div", "source-line");
+      sourceLine.append(el("span", "field-label", "FONTE DE APOIO"), externalLink(caseSource, caseSource.title));
+      guide.append(sourceLine);
+    }
     caseLayout.append(guide);
     page.append(caseLayout);
+
+    if (caseItem.solution?.length) {
+      const solution = el("details", "essay-rubric");
+      solution.append(el("summary", "field-label", "Conferir espelho de treino"));
+      const points = el("ol", "case-steps");
+      caseItem.solution.forEach((point) => points.append(el("li", "", point)));
+      solution.append(points);
+      page.append(solution);
+    }
 
     const rubric = el("section", "essay-rubric");
     const rubricHead = el("div", "rubric-header");
@@ -1893,7 +2047,7 @@
     const rubricItems = [
       ["command", "Atendimento ao comando", "Respondi a todos os itens pedidos no enunciado."],
       ["content", "Conteúdo", "Expliquei os conceitos relevantes com precisão."],
-      ["grounds", "Fundamentação", "Apontei a regra, artigo ou fonte pertinente."],
+      ["grounds", "Fundamentação", "Justifiquei as decisões, regras ou cálculos quando o enunciado pediu."],
       ["organization", "Organização", "A resposta tem sequência lógica e conclusão."],
       ["language", "Linguagem", "Usei texto claro, objetivo e adequado."]
     ];
@@ -1934,13 +2088,1080 @@
     if (focusTitle) title.focus();
   }
 
+  function studyRemainingMs(session) {
+    const total = session.durationMinutes * 60000;
+    if (session.status === "paused") return Math.max(0, Math.min(total, Number(session.remainingMs) || 0));
+    if (!validDateTime(session.deadlineAt)) return 0;
+    return Math.max(0, Math.min(total, Date.parse(session.deadlineAt) - Date.now()));
+  }
+
+  function formatStudyClock(milliseconds) {
+    const seconds = Math.ceil(Math.max(0, milliseconds) / 1000);
+    return String(Math.floor(seconds / 60)).padStart(2, "0") + ":" + String(seconds % 60).padStart(2, "0");
+  }
+
+  function createStudySessionId() {
+    if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
+    return "sessao-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+  }
+
+  function finishStudySession(automatic) {
+    const active = progress.activeStudySession;
+    if (!active) return;
+    const remaining = studyRemainingMs(active);
+    const completedAt = new Date().toISOString();
+    const elapsedSeconds = Math.max(0, Math.floor((active.durationMinutes * 60000 - remaining) / 1000));
+    const recallNote = appView.querySelector("#study-recall-note")?.value ?? active.recallNote ?? "";
+    const errorNote = appView.querySelector("#study-error-note")?.value ?? active.errorNote ?? "";
+    window.clearTimeout(studyNotesSaveTimer);
+    updateProgress((draft) => {
+      const current = draft.activeStudySession;
+      if (!current || current.id !== active.id) return;
+      if (current.preparedLessonId && !automatic) {
+        draft.completedPreparedStudyIds = Array.from(new Set([...(draft.completedPreparedStudyIds || []), current.preparedLessonId]));
+      }
+      draft.studySessions.unshift({
+        id: current.id,
+        track: current.track,
+        theme: current.theme,
+        fileId: current.fileId || "",
+        fileTitle: current.fileTitle || "",
+        fileSubject: current.fileSubject || "",
+        pdfTrack: current.pdfTrack || current.track,
+        preparedLessonId: current.preparedLessonId || "",
+        sourceId: current.sourceId || "",
+        recallNote: String(recallNote).slice(0, 600),
+        errorNote: String(errorNote).slice(0, 600),
+        durationMinutes: current.durationMinutes,
+        startedAt: current.startedAt,
+        completedAt,
+        elapsedSeconds
+      });
+      draft.studySessions = draft.studySessions.slice(0, 100);
+      const reviewTrack = current.pdfTrack || current.track;
+      if (current.fileId && driveFileIdPattern.test(current.fileId) && ["auditor-ti", "agente-geral"].includes(reviewTrack)) {
+        const nextReview = {
+          id: current.id,
+          fileId: current.fileId,
+          fileTitle: current.fileTitle || current.theme,
+          fileSubject: current.fileSubject || "",
+          track: reviewTrack,
+          completedAt,
+          dueAt: new Date(Date.parse(completedAt) + reviewIntervals[0] * 86400000).toISOString(),
+          cycleIndex: 0
+        };
+        draft.studyReviews = [nextReview, ...draft.studyReviews.filter((review) => review.fileId !== nextReview.fileId)].slice(0, 300);
+      }
+      draft.activeStudySession = null;
+    });
+    showToast(automatic
+      ? (active.preparedLessonId ? "O tempo terminou. Confirme a conclusão na aula do plano." : "O tempo terminou. Sessão e revisão de 1 dia registradas.")
+      : "Sessão finalizada. Histórico e revisão de 1 dia atualizados.");
+  }
+
+  function pauseStudySession() {
+    const active = progress.activeStudySession;
+    if (!active || active.status !== "running") return;
+    const remainingMs = studyRemainingMs(active);
+    if (remainingMs <= 0) {
+      finishStudySession(true);
+      return;
+    }
+    updateProgress((draft) => {
+      if (!draft.activeStudySession || draft.activeStudySession.id !== active.id) return;
+      draft.activeStudySession.status = "paused";
+      draft.activeStudySession.remainingMs = remainingMs;
+      delete draft.activeStudySession.deadlineAt;
+    });
+    showToast("Sessão pausada.");
+  }
+
+  function resumeStudySession() {
+    const active = progress.activeStudySession;
+    if (!active || active.status !== "paused") return;
+    const remainingMs = studyRemainingMs(active);
+    if (remainingMs <= 0) {
+      finishStudySession(true);
+      return;
+    }
+    updateProgress((draft) => {
+      if (!draft.activeStudySession || draft.activeStudySession.id !== active.id) return;
+      draft.activeStudySession.status = "running";
+      draft.activeStudySession.deadlineAt = new Date(Date.now() + remainingMs).toISOString();
+      delete draft.activeStudySession.remainingMs;
+    });
+    showToast("Sessão retomada.");
+  }
+
+  function refreshStudyTimer() {
+    const active = progress.activeStudySession;
+    if (!active || active.status !== "running") {
+      window.clearInterval(studyTimerInterval);
+      studyTimerInterval = 0;
+      return;
+    }
+    const remaining = studyRemainingMs(active);
+    if (remaining <= 0) {
+      finishStudySession(true);
+      return;
+    }
+    const display = appView.querySelector("#study-countdown");
+    if (display) display.textContent = formatStudyClock(remaining);
+    updateStudyPhaseDisplay(active, remaining);
+  }
+
+  function ensureStudyTimer() {
+    if (progress.activeStudySession?.status === "paused" && studyRemainingMs(progress.activeStudySession) <= 0) {
+      finishStudySession(true);
+      return;
+    }
+    if (!progress.activeStudySession || progress.activeStudySession.status !== "running") {
+      window.clearInterval(studyTimerInterval);
+      studyTimerInterval = 0;
+      return;
+    }
+    if (!studyTimerInterval) studyTimerInterval = window.setInterval(refreshStudyTimer, 1000);
+    refreshStudyTimer();
+  }
+
+  function studyPhaseDefinitions(durationMinutes) {
+    if (durationMinutes === 45) {
+      return [
+        { title: "Recordação ativa e revisões vencidas", minutes: 5, instruction: "Tente lembrar o conteúdo sem abrir o PDF e faça uma revisão que já venceu." },
+        { title: "Estudo dirigido", minutes: 20, instruction: "Estude um trecho do material com uma pergunta em mente." },
+        { title: "Questões e correção", minutes: 15, instruction: "Resolva questões do tópico e explique por que errou ou acertou." },
+        { title: "Erros e próxima revisão", minutes: 5, instruction: "Anote uma dúvida ou erro e agende revisões para 1, 7 e 30 dias." }
+      ];
+    }
+    const durations = studyPhaseMinutes[durationMinutes] || studyPhaseMinutes[25];
+    return [
+      { title: "Leitura ativa", minutes: durations[0], instruction: "Leia o material com uma pergunta em mente. Marque conceitos, fundamentos e dúvidas enquanto acompanha o PDF." },
+      { title: "Recuperação sem o PDF", minutes: durations[1], instruction: "Feche ou minimize o PDF e anote, de memória, os pontos centrais. Só depois confira o que faltou." },
+      { title: "Questões e correção", minutes: durations[2], instruction: "Resolva questões do banco quando houver vínculo claro. Corrija cada resposta e explique o motivo do erro." },
+      { title: "Erros e próxima revisão", minutes: durations[3], instruction: "Registre uma lembrança curta e um erro ou dúvida. A sessão agenda revisões em 1, 7 e 30 dias." }
+    ];
+  }
+
+  function studyPhaseState(session, remainingMs) {
+    const phases = studyPhaseDefinitions(session.durationMinutes);
+    const totalSeconds = session.durationMinutes * 60;
+    const elapsedSeconds = Math.max(0, totalSeconds - Math.ceil(remainingMs / 1000));
+    let elapsed = 0;
+    for (let index = 0; index < phases.length; index += 1) {
+      const length = phases[index].minutes * 60;
+      if (elapsedSeconds < elapsed + length || index === phases.length - 1) {
+        return { index, remainingSeconds: Math.max(0, elapsed + length - elapsedSeconds), elapsedSeconds };
+      }
+      elapsed += length;
+    }
+    return { index: phases.length - 1, remainingSeconds: 0, elapsedSeconds };
+  }
+
+  function updateStudyPhaseDisplay(session, remainingMs) {
+    const phaseState = studyPhaseState(session, remainingMs);
+    const phase = studyPhaseDefinitions(session.durationMinutes)[phaseState.index];
+    const heading = appView.querySelector("#study-stage-heading");
+    const countdown = appView.querySelector("#study-stage-countdown");
+    const instruction = appView.querySelector("#study-stage-instruction");
+    const list = appView.querySelector("#study-phase-list");
+    if (heading) {
+      const text = "Etapa " + (phaseState.index + 1) + " de 4 · " + phase.title;
+      if (heading.textContent !== text) heading.textContent = text;
+    }
+    if (countdown) countdown.textContent = formatStudyClock(phaseState.remainingSeconds * 1000);
+    if (instruction && instruction.textContent !== phase.instruction) instruction.textContent = phase.instruction;
+    if (list) {
+      Array.from(list.children).forEach((item, index) => {
+        item.classList.toggle("is-current", index === phaseState.index);
+        if (index === phaseState.index) item.setAttribute("aria-current", "step");
+        else item.removeAttribute("aria-current");
+      });
+    }
+  }
+
+  function studyFileUrl(fileId) {
+    if (typeof fileId !== "string" || !driveFileIdPattern.test(fileId)) return "";
+    return "https://drive.google.com/file/d/" + fileId + "/view";
+  }
+
+  function studyExternalLink(url, label) {
+    const link = el("a", "text-link", label);
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.setAttribute("aria-label", label + " (abre em nova aba)");
+    return link;
+  }
+
+  function commonStudySubject(file) {
+    const subject = normalizeText(file.subject);
+    if (subject === "portugues" || subject === "lingua portuguesa") return commonStudySubjectLabels[0];
+    if (subject === "estatistica") return commonStudySubjectLabels[1];
+    if (subject.includes("igualdade") && (subject.includes("racial") || subject.includes("genero"))) return commonStudySubjectLabels[2];
+    if (subject.startsWith("direito tributario")) return commonStudySubjectLabels[3];
+    const hasConstitutional = subject.includes("constitucional");
+    const hasAdministrative = subject.includes("administrativo");
+    if (hasConstitutional && hasAdministrative) return commonStudySubjectLabels[4];
+    if (file.track === "agente-geral" && (hasConstitutional || hasAdministrative)) return commonStudySubjectLabels[4];
+    return "";
+  }
+
+  function studyCatalogFiles() {
+    return studyCatalog && Array.isArray(studyCatalog.files) ? studyCatalog.files : [];
+  }
+
+  function selectedStudyFile() {
+    return studyCatalogFiles().find((file) => file.id === selectedStudyFileId) || null;
+  }
+
+  function studyCatalogSubjectOptions(track) {
+    if (track === "comuns") return commonStudySubjectLabels.slice();
+    return Array.from(new Set(studyCatalogFiles().filter((file) => file.track === track).map((file) => file.subject).filter(Boolean)))
+      .sort((a, b) => a.localeCompare(b, "pt-BR"));
+  }
+
+  function filteredStudyFiles() {
+    const query = normalizeText(studyCatalogSearch.trim());
+    return studyCatalogFiles().filter((file) => {
+      if (studyTrackFilter === "comuns") {
+        const commonSubject = commonStudySubject(file);
+        if (!commonSubject) return false;
+        if (studySubjectFilter !== "Todas as matérias" && commonSubject !== studySubjectFilter) return false;
+      } else {
+        if (file.track !== studyTrackFilter) return false;
+        if (studySubjectFilter !== "Todas as matérias" && file.subject !== studySubjectFilter) return false;
+      }
+      return !query || normalizeText(file.title + " " + file.subject).includes(query);
+    });
+  }
+
+  function renderStudyCatalogResults(container) {
+    if (!container) return;
+    const files = filteredStudyFiles();
+    container.replaceChildren();
+    if (!files.length) {
+      container.append(el("p", "study-empty-results", studyCatalogFiles().length
+        ? "Nenhum PDF corresponde a esses filtros. Tente outra matéria ou busca."
+        : "Importe o catálogo para pesquisar títulos e matérias neste aparelho."));
+      return;
+    }
+    const list = el("ul", "study-file-list");
+    files.slice(0, 60).forEach((file) => {
+      const item = el("li", "study-file-card" + (file.id === selectedStudyFileId ? " is-selected" : ""));
+      const main = el("div", "study-file-copy");
+      main.append(el("h4", "", file.title));
+      main.append(el("p", "", (file.subject || "Matéria não informada") + " · " + driveTrackLabels[file.track]));
+      const actions = el("div", "study-file-actions");
+      const url = studyFileUrl(file.id);
+      if (url) actions.append(studyExternalLink(url, "Abrir PDF"));
+      const select = button(file.id === selectedStudyFileId ? "Selecionado" : "Usar neste estudo", "button-secondary", "select-study-file");
+      select.dataset.fileId = file.id;
+      select.setAttribute("aria-pressed", file.id === selectedStudyFileId ? "true" : "false");
+      actions.append(select);
+      item.append(main, actions);
+      list.append(item);
+    });
+    container.append(list);
+    if (files.length > 60) container.append(el("p", "study-result-limit", "Exibindo 60 de " + files.length + " resultados. Refine a busca para encontrar um material."));
+  }
+
+  function renderStudyCatalogBrowser(parent) {
+    const section = el("section", "study-materials study-catalog");
+    section.setAttribute("aria-labelledby", "study-catalog-heading");
+    const heading = el("h3", "", "Acervo privado no Google Drive");
+    heading.id = "study-catalog-heading";
+    section.append(heading);
+    const intro = el("p", "study-catalog-intro", "Baixe o JSON privado e importe uma vez em cada navegador ou aparelho. O catálogo contém somente metadados e fica salvo localmente, separado do progresso. O importador aceita até 300 PDFs em um arquivo de até 300 KB.");
+    section.append(intro);
+    const catalogActions = el("div", "study-catalog-actions");
+    const importButton = button("Importar catálogo JSON", "button-secondary", "import-study-catalog");
+    catalogActions.append(importButton, studyExternalLink(driveCatalogUrl, "Baixar catálogo privado JSON"));
+    section.append(catalogActions);
+    if (!studyCatalog) {
+      section.append(el("p", "study-catalog-status", "Nenhum catálogo importado neste aparelho."));
+      section.append(el("p", "study-drive-note", "O app não acessa a conta Google. Faça login no Drive, baixe o JSON e use o seletor de arquivo acima; para usar em outro aparelho, repita a importação nele."));
+      parent.append(section);
+      return;
+    }
+    const generatedDate = new Date(studyCatalog.generatedAt);
+    const generatedLabel = Number.isFinite(generatedDate.getTime())
+      ? " · atualizado em " + new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short", year: "numeric" }).format(generatedDate)
+      : "";
+    section.append(el("p", "study-catalog-status", studyCatalog.count + " PDFs disponíveis neste aparelho" + generatedLabel + "."));
+    section.append(el("p", "study-drive-note", "A busca abaixo consulta títulos e matérias do catálogo. Para pesquisar palavras dentro do PDF, use a busca do Google Drive, que aplica as permissões da sua conta."));
+
+    const controls = el("div", "study-catalog-controls");
+    const trackLabel = el("label", "field-group");
+    trackLabel.append(el("span", "field-label", "Cargo ou filtro"));
+    const trackSelect = el("select", "field-control");
+    trackSelect.id = "study-catalog-track";
+    [["auditor-ti", "Auditor TI"], ["agente-geral", "Agente de Tributos — geral"], ["comuns", "Matérias comuns"]].forEach(([value, label]) => {
+      const option = el("option", "", label);
+      option.value = value;
+      option.selected = value === studyTrackFilter;
+      trackSelect.append(option);
+    });
+    trackLabel.append(trackSelect);
+    const subjectLabel = el("label", "field-group");
+    subjectLabel.append(el("span", "field-label", "Matéria"));
+    const subjectSelect = el("select", "field-control");
+    subjectSelect.id = "study-catalog-subject";
+    const addSubjectOptions = () => {
+      subjectSelect.replaceChildren();
+      const options = ["Todas as matérias", ...studyCatalogSubjectOptions(studyTrackFilter)];
+      if (!options.includes(studySubjectFilter)) studySubjectFilter = "Todas as matérias";
+      options.forEach((subject) => {
+        const option = el("option", "", subject);
+        option.value = subject;
+        option.selected = subject === studySubjectFilter;
+        subjectSelect.append(option);
+      });
+    };
+    addSubjectOptions();
+    subjectLabel.append(subjectSelect);
+    const searchLabel = el("label", "field-group study-catalog-search");
+    searchLabel.append(el("span", "field-label", "Buscar título ou matéria"));
+    const searchInput = el("input", "field-control");
+    searchInput.type = "search";
+    searchInput.id = "study-catalog-search";
+    searchInput.maxLength = 120;
+    searchInput.autocomplete = "off";
+    searchInput.placeholder = "Ex.: estatística, fiscalização, ICMS";
+    searchInput.value = studyCatalogSearch;
+    searchLabel.append(searchInput);
+    controls.append(trackLabel, subjectLabel, searchLabel);
+    section.append(controls);
+    const driveSearch = studyExternalLink("https://drive.google.com/drive/u/0/search", "Pesquisar texto no Google Drive");
+    driveSearch.id = "study-drive-search";
+    const updateDriveSearch = () => {
+      const query = searchInput.value.trim().slice(0, 120);
+      const url = new URL("https://drive.google.com/drive/u/0/search");
+      if (query) url.search = new URLSearchParams({ q: query }).toString();
+      driveSearch.href = url.toString();
+      driveSearch.textContent = query ? "Pesquisar “" + query.slice(0, 60) + "” no Google Drive" : "Pesquisar texto no Google Drive";
+    };
+    updateDriveSearch();
+    section.append(driveSearch);
+    const results = el("div", "study-catalog-results");
+    renderStudyCatalogResults(results);
+    section.append(results);
+    trackSelect.addEventListener("change", () => {
+      studyTrackFilter = trackSelect.value;
+      studySubjectFilter = "Todas as matérias";
+      addSubjectOptions();
+      renderStudyCatalogResults(results);
+    });
+    subjectSelect.addEventListener("change", () => {
+      studySubjectFilter = subjectSelect.value;
+      renderStudyCatalogResults(results);
+    });
+    searchInput.addEventListener("input", () => {
+      studyCatalogSearch = searchInput.value.slice(0, 120);
+      updateDriveSearch();
+      renderStudyCatalogResults(results);
+    });
+    parent.append(section);
+  }
+
+  function renderSelectedStudyFile(parent) {
+    const section = el("section", "study-selected-material");
+    section.setAttribute("aria-labelledby", "study-selected-heading");
+    const heading = el("h3", "", "Foco da sessão");
+    heading.id = "study-selected-heading";
+    section.append(heading);
+    const file = selectedStudyFile();
+    if (!file) {
+      section.append(el("p", "", "Selecione um PDF no catálogo para definir o tema e iniciar a sessão."));
+      parent.append(section);
+      return;
+    }
+    section.append(el("p", "study-selected-title", file.title));
+    section.append(el("p", "study-selected-meta", (file.subject || "Matéria não informada") + " · " + driveTrackLabels[file.track]));
+    const url = studyFileUrl(file.id);
+    if (url) section.append(studyExternalLink(url, "Abrir o PDF selecionado"));
+    parent.append(section);
+  }
+
+  function matchingStudyQuestions(file) {
+    if (!file) return [];
+    const subject = normalizeText(file.subject);
+    const exactLesson = lessons.find((lesson) => normalizeText(lesson.title) === normalizeText(file.title));
+    if (exactLesson) {
+      const lessonQuestions = questions.filter((question) => question.lesson === exactLesson.id);
+      if (lessonQuestions.length) return lessonQuestions;
+    }
+    if (!subject) return [];
+    return questions.filter((question) => normalizeText(question.subject) === subject);
+  }
+
+  function renderStudyPractice(file, parent) {
+    const section = el("section", "study-practice");
+    section.setAttribute("aria-labelledby", "study-practice-heading");
+    const heading = el("h3", "", "Questões e correção");
+    heading.id = "study-practice-heading";
+    const matches = matchingStudyQuestions(file);
+    section.append(heading);
+    if (matches.length) {
+      const practice = button("Praticar questões de " + (file.fileSubject || file.subject), "button-secondary", "study-practice-related");
+      const exactLesson = lessons.find((lesson) => normalizeText(lesson.title) === normalizeText(file.fileTitle || file.title));
+      if (exactLesson && matches.some((question) => question.lesson === exactLesson.id)) practice.dataset.lessonId = exactLesson.id;
+      else practice.dataset.questionSubject = matches[0].subject;
+      section.append(el("p", "", "Há questões locais associadas a esta aula ou matéria."), practice);
+    } else {
+      section.append(el("p", "", "Não encontrei vínculo confiável com uma questão local. Use questões do próprio PDF ou abra o banco geral."));
+      section.append(button("Abrir banco geral de questões", "button-secondary", "open-questions"));
+    }
+    parent.append(section);
+  }
+
+  function validateDriveCatalog(value) {
+    if (!isRecord(value) || value.app !== "rota-fiscal-drive-catalog" || value.version !== 1) {
+      throw new Error("Esse arquivo não é um catálogo compatível da Rota Fiscal.");
+    }
+    if (!validDateTime(value.generatedAt) || typeof value.source !== "string" || !value.source.trim() || value.source.length > 160 ||
+      !Array.isArray(value.files) || value.files.length < 1 || value.files.length > 300 || !Number.isInteger(value.count) || value.count !== value.files.length) {
+      throw new Error("O catálogo está incompleto ou excede o limite de 300 PDFs.");
+    }
+    const seen = new Set();
+    const files = value.files.map((file) => {
+      if (!isRecord(file) || typeof file.id !== "string" || !driveFileIdPattern.test(file.id) || seen.has(file.id) ||
+        typeof file.title !== "string" || !file.title.trim() || file.title.trim().length > 200 ||
+        typeof file.subject !== "string" || file.subject.length > 120 ||
+        typeof file.track !== "string" || !["auditor-ti", "agente-geral"].includes(file.track) ||
+        typeof file.trackLabel !== "string" || !file.trackLabel.trim() || file.trackLabel.length > 80) {
+        throw new Error("Há um item inválido no catálogo. Confira ID, título, matéria e cargo.");
+      }
+      seen.add(file.id);
+      return {
+        id: file.id,
+        title: file.title.trim(),
+        track: file.track,
+        trackLabel: driveTrackLabels[file.track],
+        subject: file.subject.trim()
+      };
+    });
+    return {
+      app: "rota-fiscal-drive-catalog",
+      version: 1,
+      generatedAt: value.generatedAt,
+      source: value.source.trim().slice(0, 160),
+      count: files.length,
+      files
+    };
+  }
+
+  function readDriveCatalog() {
+    try {
+      const raw = localStorage.getItem(driveCatalogStorageKey);
+      if (!raw || raw.length > driveCatalogMaxBytes) return null;
+      return validateDriveCatalog(JSON.parse(raw));
+    } catch {
+      return null;
+    }
+  }
+
+  function importDriveCatalogFile(file) {
+    if (!file) return;
+    if (file.size > driveCatalogMaxBytes) {
+      showToast("O catálogo excede o limite de 300 KB.");
+      return;
+    }
+    file.text().then((text) => {
+      if (text.length > driveCatalogMaxBytes) throw new Error("O catálogo excede o limite de 300 KB.");
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        throw new Error("O arquivo não contém JSON válido.");
+      }
+      const catalog = validateDriveCatalog(parsed);
+      if (studyCatalog && !window.confirm("Substituir o catálogo salvo neste aparelho por " + catalog.count + " PDFs?")) return;
+      const serialized = JSON.stringify(catalog);
+      if (serialized.length > driveCatalogMaxBytes) throw new Error("O catálogo validado excede o limite de armazenamento.");
+      localStorage.setItem(driveCatalogStorageKey, serialized);
+      studyCatalog = catalog;
+      if (!studyCatalogFiles().some((item) => item.id === selectedStudyFileId)) selectedStudyFileId = "";
+      showToast("Catálogo importado neste aparelho. O progresso ficou separado.");
+      if (currentView === "study") renderStudy(false);
+    }).catch((error) => showToast(error.message || "Não foi possível importar o catálogo."));
+  }
+
+  function driveReviewRemainingLabel(review) {
+    const delta = Date.parse(review.dueAt) - Date.now();
+    if (delta <= 0) return "Vencida";
+    if (dateKey(new Date(review.dueAt)) === dateKey(new Date())) return "Vence hoje";
+    return "Próxima";
+  }
+
+  function preparedStudyPdfKey(title) {
+    let hash = 2166136261;
+    for (let index = 0; index < title.length; index += 1) hash = Math.imul(hash ^ title.charCodeAt(index), 16777619);
+    return (hash >>> 0).toString(16).padStart(8, "0");
+  }
+
+  function preparedStudyFile(lesson) {
+    const matches = studyCatalogFiles().filter((file) => file.track === lesson.pdfTrack && preparedStudyPdfKey(file.title) === lesson.pdfKey);
+    return { file: matches.length === 1 ? matches[0] : null, ambiguous: matches.length > 1 };
+  }
+
+  function preparedStudyGoal(lesson) {
+    const goal = Number(progress.studyGoals[lesson.goalId]);
+    return Number.isFinite(goal) ? Math.max(1, Math.min(100, Math.round(goal))) : 100;
+  }
+
+  function renderPreparedStudyProgress(parent) {
+    const section = el("section", "study-progress-panel");
+    section.setAttribute("aria-labelledby", "study-progress-heading");
+    const heading = el("h2", "", "Progresso por disciplina");
+    heading.id = "study-progress-heading";
+    section.append(heading, el("p", "study-progress-intro", "Meta padrão: concluir todas as aulas preparadas. O percentual conta aulas finalizadas no plano, não páginas lidas ou acertos em questões."));
+    const groups = new Map();
+    preparedStudyLessons.forEach((lesson) => {
+      if (!groups.has(lesson.goalId)) groups.set(lesson.goalId, { track: lesson.track, subject: lesson.subject, lessons: [] });
+      groups.get(lesson.goalId).lessons.push(lesson);
+    });
+    const list = el("ul", "study-progress-list");
+    groups.forEach((group, goalId) => {
+      const completed = group.lessons.filter((lesson) => progress.completedPreparedStudyIds.includes(lesson.id)).length;
+      const total = group.lessons.length;
+      const percent = total ? Math.round(completed * 100 / total) : 0;
+      const goal = preparedStudyGoal({ goalId });
+      const reached = percent >= goal;
+      const status = completed === total ? "Concluída" : (reached ? "Meta atingida" : (completed ? "Em andamento" : "Pendente"));
+      const row = el("li", "study-progress-item");
+      const titleRow = el("div", "study-progress-heading-row");
+      titleRow.append(el("strong", "", group.subject));
+      titleRow.append(el("span", "study-progress-track", studyTrackLabels[group.track] || group.track));
+      row.append(titleRow);
+      const meter = el("progress", "study-progress-meter");
+      meter.max = 100;
+      meter.value = percent;
+      meter.setAttribute("aria-label", group.subject + ": " + percent + "% concluído");
+      row.append(meter);
+      row.append(el("p", "study-progress-status", completed + "/" + total + " aulas · " + percent + "% concluído · meta " + goal + "% · " + status));
+      const goalLabel = el("label", "study-progress-goal");
+      goalLabel.append(el("span", "field-label", "Meta de conclusão (%)"));
+      const goalInput = el("input", "field-control");
+      goalInput.type = "number";
+      goalInput.min = "1";
+      goalInput.max = "100";
+      goalInput.step = "1";
+      goalInput.value = String(goal);
+      goalInput.setAttribute("aria-label", "Meta de conclusão para " + group.subject);
+      goalInput.addEventListener("change", () => {
+        const value = Number(goalInput.value);
+        if (!Number.isFinite(value)) return;
+        updateProgress((draft) => { draft.studyGoals[goalId] = Math.max(1, Math.min(100, Math.round(value))); });
+      });
+      goalLabel.append(goalInput);
+      row.append(goalLabel);
+      list.append(row);
+    });
+    section.append(list);
+    parent.append(section);
+  }
+
+  function renderPreparedStudyPlan(parent) {
+    if (!preparedStudyWeeks.length) return;
+    const section = el("section", "study-prepared-plan");
+    section.setAttribute("aria-labelledby", "study-prepared-heading");
+    const title = el("h3", "", "Aulas preparadas · cinco semanas");
+    title.id = "study-prepared-heading";
+    section.append(title);
+    section.append(el("p", "study-prepared-intro", "Cada aula tem cargo, disciplina, tarefa autoral e o PDF do catálogo privado. A sequência é um ciclo pré-edital de segunda a sábado; escolha a semana e abra a aula do dia."));
+    const weekNav = el("nav", "study-prepared-weeks");
+    weekNav.setAttribute("aria-label", "Semana do plano preparado");
+    preparedStudyWeeks.forEach((week, index) => {
+      const select = button("Semana " + (index + 1), "button-secondary" + (index + 1 === selectedPreparedWeek ? " is-selected" : ""), "select-study-week");
+      select.dataset.week = String(index + 1);
+      select.setAttribute("aria-pressed", index + 1 === selectedPreparedWeek ? "true" : "false");
+      weekNav.append(select);
+    });
+    section.append(weekNav);
+    const week = preparedStudyWeeks[selectedPreparedWeek - 1] || preparedStudyWeeks[0];
+    const weekHeading = el("h4", "study-prepared-week-title", week.title || ("Semana " + selectedPreparedWeek));
+    section.append(weekHeading);
+    const currentDay = new Date().getDay() === 0 ? 7 : new Date().getDay();
+    const grid = el("div", "study-prepared-days");
+    week.days.forEach((day) => {
+      const today = day.day === currentDay;
+      const dayCard = el("article", "study-prepared-day" + (today ? " is-today" : ""));
+      const dayHeading = el("div", "study-prepared-day-heading");
+      dayHeading.append(el("h4", "", day.label || "Dia"));
+      if (today) dayHeading.append(el("span", "study-today-badge", "Hoje"));
+      dayCard.append(dayHeading);
+      const lessons = el("ol", "study-prepared-lessons");
+      day.lessons.forEach((lesson) => {
+        const resolved = preparedStudyFile(lesson);
+        const source = lesson.sourceId ? sourceById.get(lesson.sourceId) : null;
+        const active = progress.activeStudySession?.preparedLessonId === lesson.id;
+        const completed = progress.completedPreparedStudyIds.includes(lesson.id);
+        const awaitingConfirmation = !completed && !active && progress.studySessions.some((session) => session.preparedLessonId === lesson.id);
+        const statusLabel = completed ? "Concluída" : (active ? "Em andamento" : (awaitingConfirmation ? "Sessão encerrada · confirme" : "Pendente"));
+        const item = el("li", "study-prepared-lesson" + (completed ? " is-complete" : ""));
+        const top = el("div", "study-prepared-lesson-head");
+        top.append(el("span", "study-week-track", studyTrackLabels[lesson.track] || lesson.track));
+        top.append(el("span", "study-prepared-status", statusLabel));
+        item.append(top);
+        item.append(el("strong", "study-week-subject", lesson.subject + " · " + lesson.title));
+        item.append(el("p", "study-week-focus", lesson.focus));
+        item.append(el("small", "study-week-duration", (Number(lesson.durationMinutes) || 45) + " minutos"));
+        const actions = el("div", "study-prepared-actions");
+        if (resolved.file && studyFileUrl(resolved.file.id)) actions.append(studyExternalLink(studyFileUrl(resolved.file.id), "Abrir PDF do curso"));
+        if (source?.url) actions.append(studyExternalLink(source.url, lesson.sourceId === "fcc-2019-ti-discursiva" ? "Abrir prova histórica em PDF" : "Consultar fonte complementar"));
+        if (lesson.caseId && caseById.has(lesson.caseId)) {
+          const caseButton = button("Abrir atividade discursiva", "text-button", "open-study-case");
+          caseButton.dataset.caseId = lesson.caseId;
+          actions.append(caseButton);
+        }
+        if (awaitingConfirmation) {
+          const confirm = button("Confirmar aula", "button-primary", "confirm-prepared-study");
+          confirm.dataset.lessonId = lesson.id;
+          actions.append(confirm);
+        } else {
+          const start = button(completed ? "Reestudar aula" : (active ? "Aula em andamento" : "Iniciar aula"), "button-primary", "start-prepared-study");
+          start.dataset.lessonId = lesson.id;
+          start.disabled = Boolean(active || progress.activeStudySession || (!resolved.file && !source));
+          actions.append(start);
+        }
+        item.append(actions);
+        if (!resolved.file && !source) item.append(el("p", "study-prepared-unavailable", resolved.ambiguous
+          ? "Há mais de um arquivo compatível neste catálogo; selecione o PDF manualmente no acervo abaixo."
+          : (studyCatalogFiles().length ? "PDF não localizado no catálogo importado. Reimporte o catálogo atualizado ou escolha o arquivo manualmente abaixo." : "Importe o catálogo privado deste aparelho para localizar o PDF correspondente.")));
+        lessons.append(item);
+      });
+      dayCard.append(lessons);
+      grid.append(dayCard);
+    });
+    section.append(grid);
+    section.append(el("p", "study-prepared-note", "Aula autoral vinculada a um material do catálogo. Confira o conteúdo no PDF; a meta mede aulas preparadas concluídas e pode ser ajustada para cada disciplina."));
+    parent.append(section);
+  }
+
+  function renderStudyReviews(parent) {
+    const section = el("section", "study-review-queue");
+    section.setAttribute("aria-labelledby", "study-review-heading");
+    const heading = el("h2", "", "Revisões dos PDFs");
+    heading.id = "study-review-heading";
+    section.append(heading);
+    section.append(el("p", "study-review-note", "Este ciclo é independente das revisões da apostila. Ao concluir sessão com PDF, entram lembretes para 1, 7 e 30 dias."));
+    const reviews = progress.studyReviews.slice().sort((a, b) => Date.parse(a.dueAt) - Date.parse(b.dueAt));
+    if (!reviews.length) {
+      section.append(el("p", "text-muted", "As revisões vinculadas aos seus PDFs aparecerão aqui."));
+      parent.append(section);
+      return;
+    }
+    const list = el("ul", "study-review-list");
+    reviews.forEach((review) => {
+      const row = el("li", "study-review-item" + (Date.parse(review.dueAt) <= Date.now() ? " is-overdue" : ""));
+      const details = el("div", "study-review-details");
+      details.append(el("strong", "", review.fileTitle));
+      const nextInterval = reviewIntervals[review.cycleIndex];
+      const due = new Date(review.dueAt);
+      const dueLabel = Number.isFinite(due.getTime())
+        ? new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(due)
+        : "Data inválida";
+      details.append(el("span", "", (review.fileSubject || driveTrackLabels[review.track]) + " · " + driveReviewRemainingLabel(review) + " · revisão de " + nextInterval + (nextInterval === 1 ? " dia · " : " dias · ") + dueLabel));
+      const actions = el("div", "study-review-actions");
+      actions.append(studyExternalLink(studyFileUrl(review.fileId), "Abrir PDF"));
+      const isDue = Date.parse(review.dueAt) <= Date.now();
+      const remembered = button("Lembrei", "button-secondary", "study-review-remember");
+      remembered.dataset.reviewId = review.id;
+      remembered.disabled = !isDue;
+      const retry = button("Preciso retomar", "text-button", "study-review-retry");
+      retry.dataset.reviewId = review.id;
+      retry.disabled = !isDue;
+      actions.append(remembered, retry);
+      row.append(details, actions);
+      list.append(row);
+    });
+    section.append(list);
+    parent.append(section);
+  }
+
+  function rememberDriveStudyReview(id) {
+    const review = progress.studyReviews.find((item) => item.id === id);
+    if (!review || Date.parse(review.dueAt) > Date.now()) return;
+    updateProgress((draft) => {
+      const item = draft.studyReviews.find((candidate) => candidate.id === id);
+      if (!item || Date.parse(item.dueAt) > Date.now()) return;
+      if (item.cycleIndex >= reviewIntervals.length - 1) {
+        draft.studyReviews = draft.studyReviews.filter((candidate) => candidate.id !== id);
+        return;
+      }
+      item.cycleIndex += 1;
+      item.dueAt = new Date(Date.now() + reviewIntervals[item.cycleIndex] * 86400000).toISOString();
+    });
+    showToast(review.cycleIndex >= reviewIntervals.length - 1 ? "Ciclo de revisões concluído." : "Próxima revisão agendada.");
+  }
+
+  function retryDriveStudyReview(id) {
+    if (!progress.studyReviews.some((item) => item.id === id && Date.parse(item.dueAt) <= Date.now())) return;
+    updateProgress((draft) => {
+      const item = draft.studyReviews.find((candidate) => candidate.id === id);
+      if (item && Date.parse(item.dueAt) <= Date.now()) item.dueAt = new Date(Date.now() + 86400000).toISOString();
+    });
+    showToast("Revisão remarcada para daqui a 1 dia.");
+  }
+
+  function saveStudySessionNotes() {
+    window.clearTimeout(studyNotesSaveTimer);
+    const active = progress.activeStudySession;
+    if (!active || currentView !== "study") return;
+    const recall = appView.querySelector("#study-recall-note");
+    const error = appView.querySelector("#study-error-note");
+    if (!recall || !error) return;
+    const next = clone(progress);
+    if (!next.activeStudySession || next.activeStudySession.id !== active.id) return;
+    next.activeStudySession.recallNote = recall.value.slice(0, 600);
+    next.activeStudySession.errorNote = error.value.slice(0, 600);
+    progress = normalizeProgress(next);
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(progress));
+      const status = appView.querySelector("#study-notes-status");
+      if (status) status.textContent = "Notas salvas neste navegador";
+    } catch {
+      showToast("Não foi possível salvar as notas neste navegador.");
+    }
+  }
+
+  function queueStudySessionNotes() {
+    const status = appView.querySelector("#study-notes-status");
+    if (status) status.textContent = "Salvando notas…";
+    window.clearTimeout(studyNotesSaveTimer);
+    studyNotesSaveTimer = window.setTimeout(saveStudySessionNotes, 400);
+  }
+
+  function startStudySession(form, preparedLesson) {
+    if (progress.activeStudySession) {
+      showToast("Finalize ou pause a sessão atual antes de iniciar outra.");
+      return;
+    }
+    const lesson = preparedLesson || null;
+    const resolved = lesson ? preparedStudyFile(lesson) : { file: selectedStudyFile(), ambiguous: false };
+    const file = resolved.file;
+    const duration = lesson ? 45 : Number(form?.querySelector('[name="study-duration"]:checked')?.value);
+    const source = lesson?.sourceId ? sourceById.get(lesson.sourceId) : null;
+    if ((!file && !source) || (lesson && resolved.ambiguous) || !studyDurations.includes(duration)) {
+      showToast(lesson ? "Não foi possível localizar o material desta aula no catálogo importado." : "Selecione um PDF e uma duração válida.");
+      return;
+    }
+    const now = Date.now();
+    if (file) selectedStudyFileId = file.id;
+    updateProgress((draft) => {
+      draft.activeStudySession = {
+        id: createStudySessionId(),
+        track: lesson?.track || file.track,
+        theme: lesson?.title || file.title,
+        fileId: file?.id || "",
+        fileTitle: file?.title || "",
+        fileSubject: file?.subject || "",
+        pdfTrack: file?.track || "",
+        preparedLessonId: lesson?.id || "",
+        sourceId: source?.id || "",
+        recallNote: "",
+        errorNote: "",
+        durationMinutes: duration,
+        status: "running",
+        startedAt: new Date(now).toISOString(),
+        deadlineAt: new Date(now + duration * 60000).toISOString()
+      };
+    });
+    appView.querySelector('[data-action="study-pause"]')?.focus();
+    showToast(lesson ? "Aula iniciada. O PDF, o tempo e o progresso estão vinculados." : "Sessão iniciada. O tempo e a etapa continuam entre abas e recargas.");
+  }
+
+  function confirmPreparedStudyLesson(id) {
+    if (!preparedStudyLessonIds.has(id) || progress.completedPreparedStudyIds.includes(id)) return;
+    const hasAutomaticCompletion = progress.studySessions.some((session) => session.preparedLessonId === id);
+    if (!hasAutomaticCompletion) return;
+    updateProgress((draft) => {
+      draft.completedPreparedStudyIds = Array.from(new Set([...(draft.completedPreparedStudyIds || []), id]));
+    });
+    showToast("Aula confirmada e percentual da disciplina atualizado.");
+  }
+
+  function renderStudyHistory(parent) {
+    const history = Array.isArray(progress.studySessions) ? progress.studySessions : [];
+    const section = el("section", "study-history");
+    section.setAttribute("aria-labelledby", "study-history-heading");
+    const heading = el("h2", "", "Sessões concluídas");
+    heading.id = "study-history-heading";
+    section.append(heading);
+    const totalSeconds = history.reduce((sum, item) => sum + item.elapsedSeconds, 0);
+    section.append(el("p", "study-history-summary", history.length + (history.length === 1 ? " sessão" : " sessões") + " · " + Math.floor(totalSeconds / 60) + " min estudados"));
+    if (!history.length) {
+      section.append(el("p", "text-muted", "As sessões finalizadas aparecerão aqui. Este histórico fica separado dos blocos do cronograma."));
+    } else {
+      const list = el("ol", "study-history-list");
+      history.forEach((item) => {
+        const row = el("li", "study-history-item");
+        const details = el("div", "study-history-details");
+        details.append(el("h3", "", item.fileTitle || item.theme));
+        const elapsed = item.elapsedSeconds < 60 ? "menos de 1 min" : Math.floor(item.elapsedSeconds / 60) + " min";
+        details.append(el("p", "", studyTrackLabels[item.track] + (item.fileSubject ? " · " + item.fileSubject : "") + " · meta de " + item.durationMinutes + " min · estudados " + elapsed));
+        if (item.fileId && studyFileUrl(item.fileId)) details.append(studyExternalLink(studyFileUrl(item.fileId), "Abrir PDF usado"));
+        if (item.recallNote) details.append(el("p", "study-history-note", "Recordação: " + item.recallNote));
+        if (item.errorNote) details.append(el("p", "study-history-note", "Erro ou ponto a retomar: " + item.errorNote));
+        const date = new Date(item.completedAt);
+        const dateText = Number.isFinite(date.getTime())
+          ? new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(date)
+          : "Data indisponível";
+        const time = el("time", "study-history-date", dateText);
+        time.dateTime = item.completedAt;
+        row.append(details, time);
+        list.append(row);
+      });
+      section.append(list);
+    }
+    parent.append(section);
+  }
+
+  function renderStudy(focusTitle) {
+    currentView = "study";
+    appShell.dataset.view = "study";
+    setHeaderMode("study");
+    const { page, title } = pageShell("study", "Estudar agora", "Siga o plano de cinco semanas por cargo, abra o PDF indicado e acompanhe a conclusão por disciplina. Catálogo e progresso ficam neste aparelho.");
+    if (preparedStudyWeeks.length) renderPreparedStudyProgress(page);
+    if (progress.activeStudySession) {
+      const active = progress.activeStudySession;
+      const panel = el("section", "study-active-panel");
+      panel.setAttribute("aria-labelledby", "study-active-heading");
+      const status = active.status === "running" ? "Em andamento" : "Pausada";
+      const panelTitle = el("h2", "", "Sessão " + status.toLocaleLowerCase("pt-BR"));
+      panelTitle.id = "study-active-heading";
+      panelTitle.tabIndex = -1;
+      panel.append(panelTitle);
+      panel.append(el("p", "study-session-focus", (active.fileTitle || active.theme) + " · " + (active.fileSubject ? active.fileSubject + " · " : "") + studyTrackLabels[active.track]));
+      const timerRow = el("div", "study-timer-row");
+      const countdown = el("output", "study-countdown", formatStudyClock(studyRemainingMs(active)));
+      countdown.id = "study-countdown";
+      countdown.setAttribute("aria-label", "Tempo total restante");
+      countdown.setAttribute("aria-live", "off");
+      timerRow.append(countdown);
+      const controls = el("div", "study-timer-controls");
+      controls.append(active.status === "running"
+        ? button("Pausar", "button-secondary", "study-pause")
+        : button("Retomar", "button-primary", "study-resume"));
+      controls.append(button("Finalizar sessão", "text-button", "study-finish"));
+      timerRow.append(controls);
+      panel.append(timerRow);
+      panel.append(el("p", "study-timer-note", active.durationMinutes + " minutos no total. Pausar interrompe o cronômetro; ao voltar de outra aba ou recarregar, o prazo e a etapa são retomados."));
+      if (active.fileId && studyFileUrl(active.fileId)) panel.append(studyExternalLink(studyFileUrl(active.fileId), "Abrir o PDF desta sessão"));
+      const activeSource = active.sourceId ? sourceById.get(active.sourceId) : null;
+      if (activeSource && activeSource.url) panel.append(studyExternalLink(activeSource.url, "Abrir material complementar"));
+      if (active.preparedLessonId) panel.append(el("p", "study-drive-note", "Esta sessão pertence ao plano de cinco semanas. A aula só entra no percentual depois de você finalizar manualmente."));
+
+      const methodology = el("section", "study-methodology");
+      methodology.setAttribute("aria-labelledby", "study-methodology-heading");
+      const methodologyHeading = el("h3", "", "Roteiro da sessão");
+      methodologyHeading.id = "study-methodology-heading";
+      methodology.append(methodologyHeading);
+      const plan = studyPhaseDefinitions(active.durationMinutes);
+      const phases = el("ol", "study-phase-list");
+      phases.id = "study-phase-list";
+      plan.forEach((phase, index) => {
+        const item = el("li", "study-phase-item");
+        item.append(el("strong", "", (index + 1) + ". " + phase.title), el("span", "", phase.minutes + " min"));
+        phases.append(item);
+      });
+      methodology.append(phases);
+      const phaseState = studyPhaseState(active, studyRemainingMs(active));
+      const currentPhase = plan[phaseState.index];
+      const phaseStatus = el("div", "study-current-phase");
+      const phaseHeading = el("h4", "", "Etapa " + (phaseState.index + 1) + " de 4 · " + currentPhase.title);
+      phaseHeading.id = "study-stage-heading";
+      phaseHeading.setAttribute("aria-live", "polite");
+      phaseStatus.append(phaseHeading);
+      const stageCountdown = el("output", "study-stage-countdown", formatStudyClock(phaseState.remainingSeconds * 1000));
+      stageCountdown.id = "study-stage-countdown";
+      stageCountdown.setAttribute("aria-label", "Tempo restante desta etapa");
+      stageCountdown.setAttribute("aria-live", "off");
+      phaseStatus.append(stageCountdown);
+      const instruction = el("p", "", currentPhase.instruction);
+      instruction.id = "study-stage-instruction";
+      phaseStatus.append(instruction);
+      methodology.append(phaseStatus);
+      panel.append(methodology);
+
+      const notes = el("section", "study-notes");
+      notes.setAttribute("aria-labelledby", "study-notes-heading");
+      const notesHeading = el("h3", "", "Recordação e erros");
+      notesHeading.id = "study-notes-heading";
+      notes.append(notesHeading);
+      const recallLabel = el("label", "field-group");
+      recallLabel.append(el("span", "field-label", "O que lembro sem consultar"));
+      const recallInput = el("textarea", "study-note-input");
+      recallInput.id = "study-recall-note";
+      recallInput.maxLength = 600;
+      recallInput.rows = 3;
+      recallInput.placeholder = "Anote de memória os conceitos e fundamentos principais.";
+      recallInput.value = active.recallNote || "";
+      recallLabel.append(recallInput);
+      const errorLabel = el("label", "field-group");
+      errorLabel.append(el("span", "field-label", "Erros, dúvidas ou ponto a retomar"));
+      const errorInput = el("textarea", "study-note-input");
+      errorInput.id = "study-error-note";
+      errorInput.maxLength = 600;
+      errorInput.rows = 3;
+      errorInput.placeholder = "Registre o que confundiu e como pretende conferir.";
+      errorInput.value = active.errorNote || "";
+      errorLabel.append(errorInput);
+      notes.append(recallLabel, errorLabel);
+      const noteStatus = el("p", "study-notes-status", "Notas salvas neste navegador");
+      noteStatus.id = "study-notes-status";
+      notes.append(noteStatus);
+      [recallInput, errorInput].forEach((input) => {
+        input.addEventListener("input", queueStudySessionNotes);
+        input.addEventListener("change", saveStudySessionNotes);
+        input.addEventListener("blur", saveStudySessionNotes);
+      });
+      panel.append(notes);
+      if (active.fileId) renderStudyPractice({ id: active.fileId, title: active.fileTitle || active.theme, fileTitle: active.fileTitle || active.theme, subject: active.fileSubject || "", fileSubject: active.fileSubject || "" }, panel);
+      const driveSearch = new URL("https://drive.google.com/drive/u/0/search");
+      const driveQuery = [active.fileTitle || active.theme, active.fileSubject].filter(Boolean).join(" ");
+      driveSearch.search = new URLSearchParams({ q: driveQuery }).toString();
+      panel.append(studyExternalLink(driveSearch.toString(), "Pesquisar texto no Google Drive"));
+      panel.append(el("p", "study-drive-note", "A busca no app consulta apenas títulos e matérias do catálogo. Para buscar dentro do PDF, use a pesquisa do Drive."));
+      page.append(panel);
+    } else {
+      const strategy = content.studyStrategy;
+      if (strategy) {
+        const focus = el("section", "study-focus-plan");
+        focus.setAttribute("aria-labelledby", "study-focus-heading");
+        const focusHeading = el("h2", "", strategy.title || "Foco dos estudos");
+        focusHeading.id = "study-focus-heading";
+        focus.append(focusHeading);
+        focus.append(el("p", "study-focus-intro", strategy.intro || "Ciclo indicativo, ajustável após a publicação do próximo edital."));
+        const cycle = el("ol", "study-focus-cycle");
+        (Array.isArray(strategy.cycle) ? strategy.cycle : []).forEach((item) => {
+          const row = el("li", "study-focus-item");
+          row.append(el("strong", "", item.title || "Bloco de estudo"));
+          row.append(el("p", "", item.detail || ""));
+          cycle.append(row);
+        });
+        focus.append(cycle);
+        if (preparedStudyWeeks.length) renderPreparedStudyPlan(focus);
+        if (!preparedStudyWeeks.length && Array.isArray(strategy.weeklySchedule)) {
+          const schedule = el("section", "study-weekly-schedule");
+          schedule.setAttribute("aria-labelledby", "study-weekly-heading");
+          const scheduleHeading = el("h3", "", "Semana-base · 10 sessões de 45 min");
+          scheduleHeading.id = "study-weekly-heading";
+          schedule.append(scheduleHeading);
+          schedule.append(el("p", "study-weekly-summary", "7h30 por semana · 5 sessões de Auditor TI · 3 comuns · 2 de Agente · domingo livre"));
+          const weekGrid = el("div", "study-week-grid");
+          strategy.weeklySchedule.forEach((day) => {
+            const dayCard = el("article", "study-week-day" + (day.rest ? " is-rest" : ""));
+            const dayHeader = el("div", "study-week-day-header");
+            dayHeader.append(el("h4", "", day.day || "Dia"));
+            if (day.sessions?.length) {
+              const minutes = day.sessions.reduce((total, session) => total + (Number(session.durationMinutes) || 45), 0);
+              dayHeader.append(el("span", "study-week-day-time", minutes + " min"));
+            } else {
+              dayHeader.append(el("span", "study-week-day-time", "Descanso"));
+            }
+            dayCard.append(dayHeader);
+            if (day.sessions?.length) {
+              const sessions = el("ol", "study-week-sessions");
+              day.sessions.forEach((session) => {
+                const sessionItem = el("li", "study-week-session");
+                const track = studyTrackLabels[session.track] || session.track || "Estudo";
+                sessionItem.append(el("span", "study-week-track", track));
+                sessionItem.append(el("strong", "study-week-subject", session.subject || "Matéria do ciclo"));
+                sessionItem.append(el("p", "study-week-focus", session.focus || "Estude o tópico e resolva questões."));
+                if (caseById.has(session.caseId)) {
+                  const practice = button("Treinar discursiva de Auditor TI", "text-button", "open-study-case");
+                  practice.dataset.caseId = session.caseId;
+                  sessionItem.append(practice);
+                }
+                sessionItem.append(el("small", "study-week-duration", (Number(session.durationMinutes) || 45) + " minutos"));
+                sessions.append(sessionItem);
+              });
+              dayCard.append(sessions);
+            } else {
+              dayCard.append(el("p", "study-week-rest-note", day.rest || "Dia livre."));
+            }
+            weekGrid.append(dayCard);
+          });
+          schedule.append(weekGrid);
+          schedule.append(el("p", "study-week-catalog-note", "Os nomes das trilhas correspondem aos filtros do catálogo de PDFs nesta tela."));
+          focus.append(schedule);
+        }
+        if (Array.isArray(strategy.sessionFlow)) {
+          const flow = el("section", "study-session-flow");
+          flow.setAttribute("aria-labelledby", "study-session-flow-heading");
+          const flowHeading = el("h3", "", "Como usar os 45 minutos");
+          flowHeading.id = "study-session-flow-heading";
+          flow.append(flowHeading);
+          const flowList = el("ol", "study-session-flow-list");
+          strategy.sessionFlow.forEach((step) => {
+            const item = el("li", "study-session-flow-item");
+            item.append(el("span", "study-session-flow-time", (Number(step.minutes) || 0) + " min"));
+            item.append(el("strong", "", step.title || "Etapa"));
+            item.append(el("p", "", step.detail || ""));
+            flowList.append(item);
+          });
+          flow.append(flowList);
+          if (strategy.missedSession) flow.append(el("p", "study-week-missed-note", strategy.missedSession));
+          focus.append(flow);
+        }
+        focus.append(el("p", "study-focus-note", strategy.assumption || ""));
+        focus.append(el("p", "study-focus-method", strategy.method || ""));
+        focus.append(el("p", "study-focus-historical", strategy.historical || ""));
+        page.append(focus);
+      }
+      const panel = el("section", "study-config-panel");
+      panel.setAttribute("aria-labelledby", "study-config-heading");
+      const configHeading = el("h2", "", "Prepare sua sessão");
+      configHeading.id = "study-config-heading";
+      panel.append(configHeading);
+      renderStudyCatalogBrowser(panel);
+      renderSelectedStudyFile(panel);
+      const form = el("form", "study-session-form");
+      form.id = "study-session-form";
+      const durationGroup = el("fieldset", "study-duration-group");
+      durationGroup.append(el("legend", "field-label", "Duração total"));
+      const durationOptions = el("div", "study-duration-options");
+      studyDurations.forEach((duration, index) => {
+        const label = el("label", "study-duration-option");
+        const input = el("input");
+        input.type = "radio";
+        input.name = "study-duration";
+        input.value = String(duration);
+        input.checked = index === 0;
+        label.append(input, el("span", "", duration + " min"));
+        durationOptions.append(label);
+      });
+      durationGroup.append(durationOptions);
+      form.append(durationGroup);
+      const methodsNote = el("p", "study-form-note", "Use o roteiro como guia; pause ou encerre se necessário.");
+      form.append(methodsNote);
+      const submit = el("button", "button-primary", "Iniciar sessão com este PDF");
+      submit.type = "submit";
+      submit.disabled = !selectedStudyFile();
+      form.append(submit);
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        startStudySession(form);
+      });
+      panel.append(form);
+      page.append(panel);
+    }
+    renderStudyReviews(page);
+    renderStudyHistory(page);
+    appView.replaceChildren(page);
+    if (progress.activeStudySession) updateStudyPhaseDisplay(progress.activeStudySession, studyRemainingMs(progress.activeStudySession));
+    ensureStudyTimer();
+    if (focusTitle) title.focus();
+  }
+
   function renderSources(focusTitle) {
     currentView = "sources";
     appShell.dataset.view = "sources";
     setHeaderMode("sources");
     const { page, title } = pageShell("sources", "Biblioteca de fontes", "Links oficiais e gratuitos para conferir normas, conteúdo técnico e o histórico do concurso. As notas indicam o uso recomendado e os limites de cada referência.");
     const checkedDate = el("div", "source-check-banner");
-    checkedDate.append(el("strong", "", "Conferência registrada: 04/11/2026"), el("span", "", "Páginas oficiais consultadas nessa data não exibiam novo edital de Auditor Fiscal. É um registro da busca, não uma afirmação universal de inexistência; confira os canais oficiais."));
+    checkedDate.append(el("strong", "", "Pesquisa consultada em 15/11/2026"), el("span", "", "As fontes oficiais consultadas confirmam a autorização anunciada em 2025; não localizei edital novo para Auditor ou Agente. A notícia sobre Cesgranrio é secundária até aparecer confirmação oficial."));
     page.append(checkedDate);
 
     const groups = el("div", "source-library");
@@ -1979,6 +3200,7 @@
     else if (currentView === "review") renderReview(focusTitle);
     else if (currentView === "questions") renderQuestions(focusTitle);
     else if (currentView === "essay") renderEssay(focusTitle);
+    else if (currentView === "study") renderStudy(focusTitle);
     else renderSources(focusTitle);
   }
 
@@ -1987,11 +3209,13 @@
     if (currentView === "essay") {
       stopEssayTimer(false);
       saveEssayDraft();
+    } else if (currentView === "study") {
+      saveStudySessionNotes();
     }
   }
 
   function navigate(view, payload) {
-    if (!["today", "apostila", "plan", "review", "questions", "essay", "sources"].includes(view)) return;
+    if (!["today", "apostila", "plan", "review", "questions", "essay", "study", "sources"].includes(view)) return;
     flushCurrentDraft();
     showGlossary = false;
     if (payload && payload.lessonId && lessonIds.has(payload.lessonId)) {
@@ -1999,6 +3223,7 @@
       lessonQuestionFilter = "";
     }
     if (payload && payload.questionId && questionIds.has(payload.questionId)) selectedQuestionId = payload.questionId;
+    if (view === "essay" && caseById.has(payload?.caseId)) selectedCaseId = payload.caseId;
     if (payload && payload.lessonQuestionId && lessonIds.has(payload.lessonQuestionId)) {
       lessonQuestionFilter = payload.lessonQuestionId;
       onlyWrongQuestions = false;
@@ -2017,7 +3242,7 @@
       if (active) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
     });
-    const labels = { today: "Hoje", apostila: "Apostila", plan: "Cronograma", review: "Revisão", questions: "Questões", essay: "Discursiva", sources: "Fontes" };
+    const labels = { today: "Hoje", apostila: "Apostila", plan: "Cronograma", review: "Revisão", questions: "Questões", essay: "Discursiva", study: "Estudar agora", sources: "Fontes" };
     if (topbarSection) topbarSection.textContent = labels[view];
     appShell.classList.remove("menu-open");
     if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
@@ -2072,7 +3297,7 @@
   }
 
   function resetProgress() {
-    if (!window.confirm("Apagar o progresso, respostas, revisões e rascunhos salvos neste navegador?")) return;
+    if (!window.confirm("Apagar o progresso, respostas, sessões, notas, revisões e rascunhos salvos neste navegador? O catálogo privado é mantido separadamente.")) return;
     updateProgress((draft) => {
       Object.keys(draft).forEach((key) => delete draft[key]);
       Object.assign(draft, baseProgress());
@@ -2084,6 +3309,16 @@
 
   function initializeHeader() {
     setNavRegions();
+    studyCatalogInput = el("input");
+    studyCatalogInput.type = "file";
+    studyCatalogInput.accept = "application/json,.json";
+    studyCatalogInput.hidden = true;
+    studyCatalogInput.setAttribute("aria-label", "Importar catálogo JSON privado");
+    document.body.append(studyCatalogInput);
+    studyCatalogInput.addEventListener("change", () => {
+      importDriveCatalogFile(studyCatalogInput.files && studyCatalogInput.files[0]);
+      studyCatalogInput.value = "";
+    });
     exportButton?.addEventListener("click", exportProgress);
     importButton?.addEventListener("click", () => importInput?.click());
     importInput?.addEventListener("change", () => {
@@ -2105,7 +3340,9 @@
       const session = event.target.closest("[data-session-action]");
       if (session) {
         const index = Number(session.dataset.sessionAction);
-        if (index === 2 || getDayData(selectedDay).sundayReview) {
+        if (index === 0) {
+          navigate("study");
+        } else if (index === 2 || getDayData(selectedDay).sundayReview) {
           navigate("questions");
         } else {
           const topic = getDayData(selectedDay).topics[index];
@@ -2154,7 +3391,46 @@
       } else if (name === "open-lesson") {
         navigate("apostila", { lessonId: action.dataset.lessonId });
       } else if (name === "open-questions") {
+        questionMode = "practice";
+        questionSubjectFilter = "Todas as matérias";
+        lessonQuestionFilter = "";
+        onlyWrongQuestions = false;
         navigate("questions");
+      } else if (name === "import-study-catalog") {
+        studyCatalogInput?.click();
+      } else if (name === "select-study-file") {
+        const file = studyCatalogFiles().find((item) => item.id === action.dataset.fileId);
+        if (file) {
+          selectedStudyFileId = file.id;
+          renderStudy(false);
+          appView.querySelector("#study-session-form button[type='submit']")?.focus();
+        }
+      } else if (name === "open-study-case") {
+        navigate("essay", { caseId: action.dataset.caseId });
+      } else if (name === "select-study-week") {
+        const week = Number(action.dataset.week);
+        if (Number.isInteger(week) && week >= 1 && week <= preparedStudyWeeks.length) {
+          selectedPreparedWeek = week;
+          renderStudy(false);
+        }
+      } else if (name === "start-prepared-study") {
+        const lesson = preparedStudyById.get(action.dataset.lessonId);
+        if (lesson) startStudySession(null, lesson);
+      } else if (name === "confirm-prepared-study") {
+        confirmPreparedStudyLesson(action.dataset.lessonId);
+      } else if (name === "study-practice-related") {
+        questionMode = "practice";
+        onlyWrongQuestions = false;
+        if (action.dataset.lessonId && lessonIds.has(action.dataset.lessonId)) {
+          navigate("questions", { lessonQuestionId: action.dataset.lessonId });
+        } else {
+          const subject = action.dataset.questionSubject || "";
+          const related = questions.filter((question) => question.subject === subject);
+          questionSubjectFilter = related.length ? subject : "Todas as matérias";
+          lessonQuestionFilter = "";
+          if (related[0]) selectedQuestionId = related[0].id;
+          navigate("questions");
+        }
       } else if (name === "toggle-active-review-answer") {
         showActiveReviewAnswer = !showActiveReviewAnswer;
         renderReview(false);
@@ -2168,6 +3444,10 @@
         navigate("apostila", { lessonId: action.dataset.lessonId });
       } else if (name === "complete-review") {
         markReviewComplete(action.dataset.lessonId);
+      } else if (name === "study-review-remember") {
+        rememberDriveStudyReview(action.dataset.reviewId);
+      } else if (name === "study-review-retry") {
+        retryDriveStudyReview(action.dataset.reviewId);
       } else if (name === "select-question") {
         selectedQuestionId = action.dataset.questionId;
         renderQuestions(false);
@@ -2192,13 +3472,29 @@
         const display = appView.querySelector("#essay-timer-value");
         if (display) display.textContent = "00:00:00";
         scheduleEssaySave();
+      } else if (name === "study-pause") {
+        pauseStudySession();
+        appView.querySelector('[data-action="study-resume"]')?.focus();
+      } else if (name === "study-resume") {
+        resumeStudySession();
+        appView.querySelector('[data-action="study-pause"]')?.focus();
+      } else if (name === "study-finish") {
+        finishStudySession(false);
+        appView.querySelector("#study-catalog-track")?.focus();
       }
     });
     window.addEventListener("storage", (event) => {
+      if (event.key === driveCatalogStorageKey) {
+        studyCatalog = readDriveCatalog();
+        if (!studyCatalogFiles().some((item) => item.id === selectedStudyFileId)) selectedStudyFileId = "";
+        if (currentView === "study") renderStudy(false);
+        return;
+      }
       if (event.key !== storageKey) return;
       progress = readProgress();
       selectedDay = progress.selectedDay;
       renderProgressMetrics();
+      ensureStudyTimer();
       renderCurrentView(false);
     });
     window.addEventListener("rotafiscal:progresschange", (event) => {
@@ -2206,17 +3502,23 @@
       progress = normalizeProgress(event.detail);
       selectedDay = progress.selectedDay;
       renderProgressMetrics();
+      ensureStudyTimer();
+      if (currentView === "study") renderStudy(false);
     });
     window.addEventListener("pagehide", flushCurrentDraft);
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "hidden" && currentView === "essay") flushCurrentDraft();
+      else if (document.visibilityState === "hidden" && currentView === "study") flushCurrentDraft();
+      else if (document.visibilityState === "visible") refreshStudyTimer();
     });
   }
 
   const initialView = "today";
   appShell.dataset.view = initialView;
+  studyCatalog = readDriveCatalog();
   initializeHeader();
   renderDashboard();
+  ensureStudyTimer();
   window.RotaFiscalProgress = {
     storageKey,
     read: () => clone(progress),
