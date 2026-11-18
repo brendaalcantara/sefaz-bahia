@@ -2921,9 +2921,7 @@ button:disabled { opacity: .45; cursor: not-allowed; }
 .study-progress-goal .field-label { margin: 0; font-size: 11px; }
 .study-progress-goal .field-control { min-height: 40px; padding: 7px; font-size: 13px; }
 .study-prepared-plan { margin-top: 8px; }
-.study-prepared-weeks { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-.study-prepared-weeks button { min-height: 42px; }
-.study-prepared-weeks button[aria-pressed="true"] { border-color: var(--cyan); background: rgba(8, 239, 243, .08); color: #eef3f6; }
+.study-prepared-weeks { width: min(100%, 420px); margin: 12px 0; }
 .study-prepared-week-title { margin: 8px 0; color: var(--lime); font-size: 14px; }
 .study-prepared-days { display: grid; gap: 4px; }
 .study-prepared-day { padding: 12px 0; border-top: 1px solid #30404c; }
@@ -2948,8 +2946,6 @@ button:disabled { opacity: .45; cursor: not-allowed; }
   .study-progress-panel,
   .study-prepared-plan { padding: 14px 12px; }
   .study-progress-list { grid-template-columns: minmax(0, 1fr); }
-  .study-prepared-weeks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .study-prepared-weeks button { padding-inline: 8px; font-size: 12px; }
   .study-prepared-actions > button,
   .study-prepared-actions > a { flex: 1 1 130px; justify-content: center; }
 }

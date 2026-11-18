@@ -89,7 +89,7 @@
   let studySubjectFilter = "Todas as matérias";
   let studyCatalogSearch = "";
   let selectedStudyFileId = "";
-  let selectedPreparedWeek = 1;
+  let selectedPreparedWeek = 0;
   let regionRefs = {};
   let heroSurface = null;
   let heroControls = null;
@@ -2665,21 +2665,42 @@
     if (!preparedStudyWeeks.length) return;
     const section = el("section", "study-prepared-plan");
     section.setAttribute("aria-labelledby", "study-prepared-heading");
-    const title = el("h3", "", "Aulas preparadas · cinco semanas");
+    const title = el("h3", "", "Aulas preparadas");
     title.id = "study-prepared-heading";
     section.append(title);
-    section.append(el("p", "study-prepared-intro", "Cada aula tem cargo, disciplina, tarefa autoral e o PDF do catálogo privado. A sequência é um ciclo pré-edital de segunda a sábado; escolha a semana e abra a aula do dia."));
-    const weekNav = el("nav", "study-prepared-weeks");
-    weekNav.setAttribute("aria-label", "Semana do plano preparado");
+    const pdfCount = new Set(preparedStudyLessons.map((lesson) => lesson.pdfTrack + ":" + lesson.pdfKey)).size;
+    section.append(el("p", "study-prepared-intro", pdfCount + " PDFs em " + preparedStudyWeeks.length + " semanas. A trilha começa por Auditor TI e matérias comuns. O material de Agente entra ao final, como complemento."));
+    const historicalEdital = sourceById.get("auditor-edital-2019");
+    if (historicalEdital?.url) section.append(studyExternalLink(historicalEdital.url, "Consultar o edital de Auditor de 2019"));
+    const historicalExam = sourceById.get("fcc-2019-ti-discursiva");
+    if (historicalExam?.url) {
+      const examUrl = new URL(historicalExam.url);
+      examUrl.hash = "";
+      section.append(document.createTextNode(" · "), studyExternalLink(examUrl.href, "Abrir a prova de Auditor TI de 2019"));
+    }
+    section.append(el("p", "study-prepared-intro", "Em 2019, Informática teve 35 das 55 questões específicas de Auditor TI, Gestão Organizacional teve 15 e Matemática e Raciocínio Lógico teve 5. A ordem também considera o treino da discursiva de 2019."));
+    const firstPending = preparedStudyWeeks.findIndex((week) =>
+      week.days.some((day) => day.lessons.some((lesson) => !progress.completedPreparedStudyIds.includes(lesson.id))));
+    const currentWeek = selectedPreparedWeek || (firstPending < 0 ? preparedStudyWeeks.length : firstPending + 1);
+    const weekControl = el("label", "field-group study-prepared-weeks");
+    weekControl.append(el("span", "field-label", "Semana de estudo"));
+    const weekSelect = el("select", "field-control");
+    weekSelect.id = "prepared-study-week";
     preparedStudyWeeks.forEach((week, index) => {
-      const select = button("Semana " + (index + 1), "button-secondary" + (index + 1 === selectedPreparedWeek ? " is-selected" : ""), "select-study-week");
-      select.dataset.week = String(index + 1);
-      select.setAttribute("aria-pressed", index + 1 === selectedPreparedWeek ? "true" : "false");
-      weekNav.append(select);
+      const option = el("option", "", week.title || ("Semana " + (index + 1)));
+      option.value = String(index + 1);
+      option.selected = index + 1 === currentWeek;
+      weekSelect.append(option);
     });
-    section.append(weekNav);
-    const week = preparedStudyWeeks[selectedPreparedWeek - 1] || preparedStudyWeeks[0];
-    const weekHeading = el("h4", "study-prepared-week-title", week.title || ("Semana " + selectedPreparedWeek));
+    weekSelect.addEventListener("change", () => {
+      selectedPreparedWeek = Number(weekSelect.value);
+      renderStudy(false);
+      appView.querySelector("#prepared-study-week")?.focus();
+    });
+    weekControl.append(weekSelect);
+    section.append(weekControl);
+    const week = preparedStudyWeeks[currentWeek - 1];
+    const weekHeading = el("h4", "study-prepared-week-title", week.title || ("Semana " + currentWeek));
     section.append(weekHeading);
     const currentDay = new Date().getDay() === 0 ? 7 : new Date().getDay();
     const grid = el("div", "study-prepared-days");
@@ -2921,7 +2942,7 @@
     currentView = "study";
     appShell.dataset.view = "study";
     setHeaderMode("study");
-    const { page, title } = pageShell("study", "Estudar agora", "Siga o plano de cinco semanas por cargo, abra o PDF indicado e acompanhe a conclusão por disciplina. Catálogo e progresso ficam neste aparelho.");
+    const { page, title } = pageShell("study", "Estudar agora", "Siga a trilha de Auditor TI, abra o PDF indicado e acompanhe a conclusão por disciplina. Catálogo e progresso ficam neste aparelho.");
     if (preparedStudyWeeks.length) renderPreparedStudyProgress(page);
     if (progress.activeStudySession) {
       const active = progress.activeStudySession;
@@ -2950,7 +2971,7 @@
       if (active.fileId && studyFileUrl(active.fileId)) panel.append(studyExternalLink(studyFileUrl(active.fileId), "Abrir o PDF desta sessão"));
       const activeSource = active.sourceId ? sourceById.get(active.sourceId) : null;
       if (activeSource && activeSource.url) panel.append(studyExternalLink(activeSource.url, "Abrir material complementar"));
-      if (active.preparedLessonId) panel.append(el("p", "study-drive-note", "Esta sessão pertence ao plano de cinco semanas. A aula só entra no percentual depois de você finalizar manualmente."));
+      if (active.preparedLessonId) panel.append(el("p", "study-drive-note", "Finalize a aula para atualizar o percentual da disciplina."));
 
       const methodology = el("section", "study-methodology");
       methodology.setAttribute("aria-labelledby", "study-methodology-heading");
@@ -3407,12 +3428,6 @@
         }
       } else if (name === "open-study-case") {
         navigate("essay", { caseId: action.dataset.caseId });
-      } else if (name === "select-study-week") {
-        const week = Number(action.dataset.week);
-        if (Number.isInteger(week) && week >= 1 && week <= preparedStudyWeeks.length) {
-          selectedPreparedWeek = week;
-          renderStudy(false);
-        }
       } else if (name === "start-prepared-study") {
         const lesson = preparedStudyById.get(action.dataset.lessonId);
         if (lesson) startStudySession(null, lesson);

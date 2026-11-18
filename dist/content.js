@@ -1,63 +1,118 @@
 window.STUDY_CONTENT = {
   studyStrategy: {
-    title: "Ciclo inicial de 10 blocos",
-    intro: "Use cada bloco como uma sessão de 25, 45 ou 60 minutos. Assim, 8 dos 10 blocos fortalecem Auditor TI: 5 focados no cargo e 3 em matérias que também aparecem para Agente. É uma referência pré-edital, não uma previsão da próxima prova.",
+    title: "Trilha priorizada de 24 semanas",
+    intro: "São 10 aulas de 45 minutos por semana para percorrer os 226 PDFs do catálogo. A sequência começa por Auditor TI e matérias comuns, conclui os PDFs desse cargo e só então entra no acervo de Agente. A ordem considera pesos e questões comprovadas em provas anteriores; não prevê o próximo edital.",
     cycle: [
       {
-        title: "5 blocos · Auditor TI",
-        detail: "3 de Tecnologia da Informação, 1 de Gestão Organizacional e 1 de Matemática e Raciocínio Lógico."
+        "title": "Auditor TI · núcleo específico",
+        "detail": "A prova de 2019 teve 35 de 55 questões específicas de Tecnologia da Informação. Os tópicos comprovados da Prova II aparecem nas aulas correspondentes; isso confirma cobrança naquele caderno, não recorrência em concursos futuros."
       },
       {
-        title: "3 blocos · Matérias comuns",
-        detail: "Português; Constitucional, Administrativo e Tributário; Contabilidade Geral, Estatística e igualdade racial e de gênero."
+        "title": "Gestão, raciocínio e matérias comuns",
+        "detail": "Em 2019, Gestão Organizacional teve 15 das 55 específicas e Matemática/Raciocínio Lógico teve 5. Constitucional, Administrativo e as demais disciplinas comuns entram junto ao ciclo prioritário de Auditor."
       },
       {
-        title: "2 blocos · Agente de Tributos",
-        detail: "Administração, Economia e Finanças Públicas; Matemática Financeira, Contabilidade Aplicada ao Setor Público e Informática Básica."
+        "title": "Agente · etapa complementar",
+        "detail": "Os PDFs de Agente começam depois da cobertura do acervo Auditor. O recorte específico da prova de 2022 organiza os temas do complemento, sem pressupor que o próximo edital repetirá o programa."
       }
     ],
     weeklySchedule: [
       {
-        day: "Segunda-feira",
-        sessions: [
-          { track: "auditor-ti", subject: "Tecnologia da Informação", focus: "Estude um tópico do PDF e resolva questões do assunto.", durationMinutes: 45 },
-          { track: "comuns", subject: "Língua Portuguesa", focus: "Alterne interpretação, gramática e questões comentadas.", durationMinutes: 45 }
+        "day": "Segunda-feira",
+        "sessions": [
+          {
+            "track": "auditor-ti",
+            "subject": "Tecnologia da Informação",
+            "focus": "Estude um tópico do PDF, desenhe seu funcionamento e resolva questões.",
+            "durationMinutes": 45
+          },
+          {
+            "track": "comuns",
+            "subject": "Língua Portuguesa",
+            "focus": "Identifique tese e evidências no texto; justifique três respostas com trechos.",
+            "durationMinutes": 45
+          }
         ]
       },
       {
-        day: "Terça-feira",
-        sessions: [
-          { track: "auditor-ti", subject: "Tecnologia da Informação", focus: "Avance para outro tópico e registre dúvidas recorrentes.", durationMinutes: 45 },
-          { track: "agente-geral", subject: "Administração, Economia e Finanças Públicas", focus: "Use o material geral de Agente; responda questões após o estudo.", durationMinutes: 45 }
+        "day": "Terça-feira",
+        "sessions": [
+          {
+            "track": "auditor-ti",
+            "subject": "Tecnologia da Informação",
+            "focus": "Compare conceitos e aplique-os a um cenário de serviço fiscal.",
+            "durationMinutes": 45
+          },
+          {
+            "track": "auditor-ti",
+            "subject": "Tópico específico prioritário",
+            "focus": "Resolva a questão histórica vinculada ao tema quando houver referência comprovada; depois corrija com o PDF.",
+            "durationMinutes": 45
+          }
         ]
       },
       {
-        day: "Quarta-feira",
-        sessions: [
-          { track: "comuns", subject: "Direito Constitucional, Administrativo e Tributário", focus: "Escolha uma matéria por semana e avance nos tópicos do curso.", durationMinutes: 45 }
+        "day": "Quarta-feira",
+        "sessions": [
+          {
+            "track": "comuns",
+            "subject": "Direito Constitucional e Administrativo",
+            "focus": "Extraia regra, competência, exceções e consequência; aplique a um caso curto.",
+            "durationMinutes": 45
+          }
         ]
       },
       {
-        day: "Quinta-feira",
-        sessions: [
-          { track: "auditor-ti", subject: "Tecnologia da Informação", focus: "Use este bloco para a discursiva. Comece pela questão real de 2019 e avance para um caso autoral por semana.", caseId: "fcc-2019-ti-discursiva", durationMinutes: 45 },
-          { track: "agente-geral", subject: "Contabilidade Pública, Matemática Financeira e Informática Básica", focus: "Alterne os tópicos do material de Agente; Informática Básica não é uma trilha de TI.", durationMinutes: 45 }
+        "day": "Quinta-feira",
+        "sessions": [
+          {
+            "track": "auditor-ti",
+            "subject": "Discursiva de Tecnologia da Informação",
+            "focus": "Treine a questão histórica de 2019 e depois escreva um caso autoral com revisão pela rubrica.",
+            "caseId": "fcc-2019-ti-discursiva",
+            "durationMinutes": 45
+          },
+          {
+            "track": "auditor-ti",
+            "subject": "Tecnologia da Informação",
+            "focus": "Produza um artefato concreto do tema: diagrama, matriz, consulta ou plano de teste.",
+            "durationMinutes": 45
+          }
         ]
       },
       {
-        day: "Sexta-feira",
-        sessions: [
-          { track: "auditor-ti", subject: "Gestão Organizacional", focus: "Estude um tópico e consolide com questões.", durationMinutes: 45 }
+        "day": "Sexta-feira",
+        "sessions": [
+          {
+            "track": "auditor-ti",
+            "subject": "Gestão Organizacional",
+            "focus": "Aplique o conceito a uma unidade fiscal e defina indicador, responsável e prazo.",
+            "durationMinutes": 45
+          }
         ]
       },
       {
-        day: "Sábado",
-        sessions: [
-          { track: "auditor-ti", subject: "Matemática e Raciocínio Lógico", focus: "Resolva problemas e registre o raciocínio que levou ao erro.", durationMinutes: 45 },
-          { track: "comuns", subject: "Contabilidade Geral, Estatística e Igualdade Racial e de Gênero", focus: "Alterne as matérias comuns ao longo das semanas.", durationMinutes: 45 }
+        "day": "Sábado",
+        "sessions": [
+          {
+            "track": "auditor-ti",
+            "subject": "Matemática e Raciocínio Lógico",
+            "focus": "Resolva problemas mostrando hipótese, cálculo e conferência.",
+            "durationMinutes": 45
+          },
+          {
+            "track": "comuns",
+            "subject": "Contabilidade, Estatística e Igualdade",
+            "focus": "Alterne o tópico comum previsto na aula e registre a evidência do acerto ou erro.",
+            "durationMinutes": 45
+          }
         ]
       },
-      { day: "Domingo", sessions: [], rest: "Descanso ou reposição leve, se necessário." }
+      {
+        "day": "Domingo",
+        "sessions": [],
+        "rest": "Descanso ou reposição leve, se necessário."
+      }
     ],
     sessionFlow: [
       { minutes: 5, title: "Recordação ativa e revisões vencidas", detail: "Tente lembrar o conteúdo sem abrir o PDF e faça uma revisão pendente." },
@@ -66,781 +121,3669 @@ window.STUDY_CONTENT = {
       { minutes: 5, title: "Erros e próxima revisão", detail: "Anote uma dúvida ou erro e agende revisões para 1, 7 e 30 dias." }
     ],
     missedSession: "Se perder um bloco, retome pelo próximo bloco da sequência no dia seguinte; não precisa dobrar a carga para compensar.",
-    assumption: "Para Agente, este ciclo usa o curso geral de Administração e Finanças que você tem; não cria uma trilha de TI para esse cargo. O próximo edital definirá o conteúdo oficial, então revisaremos os dois blocos específicos quando ele for publicado.",
+    assumption: "O plano assume 10 sessões semanais de 45 minutos e usa o catálogo fechado em 226 PDFs. Ele prioriza Auditor TI e matérias comuns; Agente entra como complemento após esses PDFs. O edital oficial definirá disciplinas e pesos futuros, então a sequência deverá ser revista quando publicado.",
     method: "Em cada bloco, estude um tópico, resolva questões e registre os erros no caderno de estudo. No fim da semana, reforce os assuntos com menor percentual de acerto e erros recorrentes; mantenha as revisões de 1, 7 e 30 dias.",
     historical: "Referência histórica: no Auditor TI de 2019, Tecnologia da Informação teve 35 das 55 questões específicas (peso 3), Gestão Organizacional 15 e Matemática/Raciocínio Lógico 5. No Agente — Administração e Finanças — de 2022, as 35 questões específicas cobraram Administração/Economia/Finanças Públicas (15), Contabilidade Pública (10), Matemática Financeira (5) e Informática Básica (5), também com peso 3. Os editais novos podem mudar disciplinas, pesos e formato."
   },
   preparedStudyWeeks: [
-  {
-    "id": "semana-1",
-    "title": "Semana 1 · Fundamentos",
-    "days": [
-      {
-        "day": 1,
-        "label": "Segunda-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s1-d1-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "Ciclo de desenvolvimento e artefatos",
-            "focus": "Separe etapas, entregáveis e controles no PDF; desenhe um fluxo de quatro etapas para um sistema tributário e aponte onde cada requisito pode ser rastreado.",
-            "pdfKey": "3dc7d1a2",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-portugues-s1-d1-2",
-            "track": "comuns",
-            "subject": "Língua Portuguesa",
-            "goalId": "comuns:portugues",
-            "title": "Compreensão e inferência",
-            "focus": "Leia o texto do PDF, escreva a tese em uma frase e localize duas evidências. Resolva três itens de inferência e justifique cada resposta com o trecho correspondente.",
-            "pdfKey": "fb638d1d",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 2,
-        "label": "Terça-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s1-d2-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "Métodos ágeis e entrega incremental",
-            "focus": "Compare a abordagem iterativa com a sequencial no material; produza uma tabela com quando escolher cada uma, risco de mudança e evidência de aceite.",
-            "pdfKey": "8beeba57",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "agente-geral-administracao-publica-s1-d2-2",
-            "track": "agente-geral",
-            "subject": "Administração Pública",
-            "goalId": "agente-geral:administracao-publica",
-            "title": "Organização da Administração Pública",
-            "focus": "Classifique os entes e entidades apresentados no PDF em administração direta ou indireta. Para cada exemplo, registre personalidade, vínculo e uma consequência prática.",
-            "pdfKey": "aee5931c",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 3,
-        "label": "Quarta-feira",
-        "lessons": [
-          {
-            "id": "comuns-direito-tributario-s1-d3-1",
-            "track": "comuns",
-            "subject": "Direito Tributário",
-            "goalId": "comuns:direito-tributario",
-            "title": "Obrigação tributária e fato gerador",
-            "focus": "Diferencie obrigação principal e acessória com um exemplo fiscal. Depois, classifique três fatos do material e indique sujeito ativo, sujeito passivo e momento de ocorrência.",
-            "pdfKey": "6f7820a7",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 4,
-        "label": "Quinta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-discursiva-s1-d4-1",
-            "track": "auditor-ti",
-            "subject": "Discursiva de Tecnologia da Informação",
-            "goalId": "auditor-ti:discursiva",
-            "title": "Prova histórica: BPMN, SQL e valor agregado",
-            "focus": "Resolva a questão histórica sem consultar o espelho. Sublinhe cada comando, distribua o tempo entre os itens e use a rubrica do app para conferir cobertura e justificativas.",
-            "pdfKey": "7265b0aa",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45,
-            "caseId": "fcc-2019-ti-discursiva",
-            "sourceId": "fcc-2019-ti-discursiva"
-          },
-          {
-            "id": "agente-geral-casp-s1-d4-2",
-            "track": "agente-geral",
-            "subject": "Contabilidade Aplicada ao Setor Público",
-            "goalId": "agente-geral:casp",
-            "title": "Estrutura conceitual da CASP",
-            "focus": "Do PDF, extraia objetivo, usuário e característica qualitativa da informação pública. Aplique os três pontos a um exemplo de decisão orçamentária e confira se cada resposta tem fundamento.",
-            "pdfKey": "398a032b",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 5,
-        "label": "Sexta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-gestao-s1-d5-1",
-            "track": "auditor-ti",
-            "subject": "Gestão Organizacional",
-            "goalId": "auditor-ti:gestao",
-            "title": "Estrutura e desenho organizacional",
-            "focus": "Desenhe um organograma simples para uma unidade fiscal. Identifique cadeia de comando, amplitude de controle e dois riscos de sobreposição de responsabilidade com base no material.",
-            "pdfKey": "d1153b16",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 6,
-        "label": "Sábado",
-        "lessons": [
-          {
-            "id": "auditor-ti-matematica-s1-d6-1",
-            "track": "auditor-ti",
-            "subject": "Matemática e Raciocínio Lógico",
-            "goalId": "auditor-ti:matematica",
-            "title": "Razão, proporção e regra de três",
-            "focus": "Resolva dois problemas de proporcionalidade com unidades explícitas. Antes de calcular, diga se a relação é direta ou inversa; confira o resultado por estimativa.",
-            "pdfKey": "3828adbd",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-contabilidade-s1-d6-2",
-            "track": "comuns",
-            "subject": "Contabilidade Geral",
-            "goalId": "comuns:contabilidade",
-            "title": "Patrimônio, contas e equação contábil",
-            "focus": "Classifique cinco fatos em ativo, passivo ou patrimônio líquido. Registre o efeito na equação patrimonial e explique por que o resultado fecha.",
-            "pdfKey": "4df71c7a",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "semana-2",
-    "title": "Semana 2 · Processos e aplicação",
-    "days": [
-      {
-        "day": 1,
-        "label": "Segunda-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s2-d1-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "Modelagem de processos de negócio",
-            "focus": "Modele um fluxo simples de atendimento em quatro passos usando início, tarefa, decisão e fim. Marque o ponto de controle e explique qual evidência provaria a execução.",
-            "pdfKey": "54745677",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-portugues-s2-d1-2",
-            "track": "comuns",
-            "subject": "Língua Portuguesa",
-            "goalId": "comuns:portugues",
-            "title": "Coesão e coerência",
-            "focus": "Reescreva um parágrafo do PDF usando dois conectores diferentes sem alterar a tese. Identifique a referência de três pronomes e resolva três questões do tema.",
-            "pdfKey": "4a947708",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 2,
-        "label": "Terça-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s2-d2-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "Engenharia de software: qualidade e processo",
-            "focus": "Monte uma matriz requisito–teste para três requisitos. Inclua um caso positivo, um limite e um erro; registre o critério objetivo de aprovação para cada teste.",
-            "pdfKey": "59cd44ce",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "agente-geral-economia-s2-d2-2",
-            "track": "agente-geral",
-            "subject": "Economia e Finanças Públicas",
-            "goalId": "agente-geral:economia",
-            "title": "Dívida pública e política fiscal",
-            "focus": "Desenhe a relação entre receita, despesa, resultado e dívida. Interprete um cenário do PDF e identifique qual indicador mudaria primeiro e por quê.",
-            "pdfKey": "73590d03",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 3,
-        "label": "Quarta-feira",
-        "lessons": [
-          {
-            "id": "comuns-direito-tributario-s2-d3-1",
-            "track": "comuns",
-            "subject": "Direito Tributário",
-            "goalId": "comuns:direito-tributario",
-            "title": "Constituição do crédito tributário",
-            "focus": "Organize em sequência ocorrência, lançamento e constituição do crédito. Diferencie lançamento de declaração e de ofício usando um exemplo e indique o efeito de uma omissão.",
-            "pdfKey": "6d3090df",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 4,
-        "label": "Quinta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-discursiva-s2-d4-1",
-            "track": "auditor-ti",
-            "subject": "Discursiva de Tecnologia da Informação",
-            "goalId": "auditor-ti:discursiva",
-            "title": "Caso discursivo: processo e incidente",
-            "focus": "Abra o caso BPMN, desenhe o processo proposto com raias e decisões, e escreva duas regras para tratamento de exceções. Compare seu diagrama ao espelho e registre uma correção.",
-            "pdfKey": "54745677",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45,
-            "caseId": "ti-bpmn-incidentes"
-          },
-          {
-            "id": "agente-geral-matematica-financeira-s2-d4-2",
-            "track": "agente-geral",
-            "subject": "Matemática Financeira",
-            "goalId": "agente-geral:matematica-financeira",
-            "title": "Juros simples e valor final",
-            "focus": "Resolva um problema do PDF indicando capital, taxa, prazo e unidade temporal. Faça o cálculo por fórmula e por decomposição; explique a diferença entre juros e montante.",
-            "pdfKey": "5596df07",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 5,
-        "label": "Sexta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-gestao-s2-d5-1",
-            "track": "auditor-ti",
-            "subject": "Gestão Organizacional",
-            "goalId": "auditor-ti:gestao",
-            "title": "Planejamento e desdobramento de objetivos",
-            "focus": "Transforme um objetivo amplo em três metas mensuráveis. Para cada meta, defina responsável, prazo e indicador que permitiria acompanhar o resultado.",
-            "pdfKey": "704d8d66",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 6,
-        "label": "Sábado",
-        "lessons": [
-          {
-            "id": "auditor-ti-matematica-s2-d6-1",
-            "track": "auditor-ti",
-            "subject": "Matemática e Raciocínio Lógico",
-            "goalId": "auditor-ti:matematica",
-            "title": "Operadores lógicos e negação",
-            "focus": "Traduza três afirmações para símbolos, negue cada uma sem trocar o sentido e monte a tabela-verdade de uma proposição composta do material.",
-            "pdfKey": "32c1d95f",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-estatistica-s2-d6-2",
-            "track": "comuns",
-            "subject": "Estatística",
-            "goalId": "comuns:estatistica",
-            "title": "Variáveis e leitura de dados",
-            "focus": "Classifique exemplos como qualitativos ou quantitativos e discretos ou contínuos. Leia uma tabela do PDF e escreva duas conclusões válidas e uma conclusão que os dados não permitem.",
-            "pdfKey": "8f21928d",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "semana-3",
-    "title": "Semana 3 · Dados e responsabilidade",
-    "days": [
-      {
-        "day": 1,
-        "label": "Segunda-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s3-d1-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "Business intelligence e remodelagem de dados",
-            "focus": "Esboce um fluxo da origem ao painel, marcando transformação, validação e consumo. Aponte dois riscos de qualidade e proponha uma verificação reproduzível para cada um.",
-            "pdfKey": "c07f190f",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-portugues-s3-d1-2",
-            "track": "comuns",
-            "subject": "Língua Portuguesa",
-            "goalId": "comuns:portugues",
-            "title": "Período simples: termos e relações",
-            "focus": "Analise três frases do PDF, localize núcleo do sujeito e predicado e classifique os complementos pedidos. Reescreva uma frase preservando a relação sintática.",
-            "pdfKey": "c17c02ee",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 2,
-        "label": "Terça-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s3-d2-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "Banco de dados: modelos e consistência",
-            "focus": "Compare no PDF os modelos de dados apresentados. Desenhe entidades e relações para um cadastro fiscal e aponte uma regra de integridade que precisa ser testada.",
-            "pdfKey": "604abcab",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          },
-          {
-            "id": "agente-geral-microeconomia-s3-d2-2",
-            "track": "agente-geral",
-            "subject": "Microeconomia",
-            "goalId": "agente-geral:microeconomia",
-            "title": "Preferências, escolha e demanda",
-            "focus": "Represente a decisão de consumo descrita no material e explique como uma mudança de renda ou preço altera a escolha. Resolva duas questões identificando a hipótese usada.",
-            "pdfKey": "6af089ce",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 3,
-        "label": "Quarta-feira",
-        "lessons": [
-          {
-            "id": "comuns-direito-tributario-s3-d3-1",
-            "track": "comuns",
-            "subject": "Direito Tributário",
-            "goalId": "comuns:direito-tributario",
-            "title": "Responsabilidade tributária",
-            "focus": "Separe responsabilidade por substituição e por transferência. Aplique os critérios do PDF a dois casos e indique qual fato adicional mudaria a conclusão.",
-            "pdfKey": "2fa72483",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 4,
-        "label": "Quinta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-discursiva-s3-d4-1",
-            "track": "auditor-ti",
-            "subject": "Discursiva de Tecnologia da Informação",
-            "goalId": "auditor-ti:discursiva",
-            "title": "Caso discursivo: acesso a uma conta Oracle",
-            "focus": "Resolva o caso Oracle distinguindo alteração de senha, desbloqueio e privilégio de conexão. Escreva os comandos pedidos e justifique cada etapa com a documentação de apoio.",
-            "pdfKey": "3dc7d1a2",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45,
-            "caseId": "ti-sql-oracle",
-            "sourceId": "oracle-alter-user"
-          },
-          {
-            "id": "agente-geral-informatica-s3-d4-2",
-            "track": "agente-geral",
-            "subject": "Informática Básica",
-            "goalId": "agente-geral:informatica",
-            "title": "Sistema operacional e organização de arquivos",
-            "focus": "No ambiente descrito no material, execute mentalmente o fluxo de criar, localizar, mover e recuperar um arquivo. Registre atalhos ou menus e a consequência de cada ação.",
-            "pdfKey": "661125c5",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 5,
-        "label": "Sexta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-gestao-s3-d5-1",
-            "track": "auditor-ti",
-            "subject": "Gestão Organizacional",
-            "goalId": "auditor-ti:gestao",
-            "title": "Grupos, equipes e coordenação",
-            "focus": "Compare grupo e equipe em uma situação de fiscalização. Identifique objetivo comum, interdependência e uma ação de coordenação que possa ser observada.",
-            "pdfKey": "229ce2b8",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 6,
-        "label": "Sábado",
-        "lessons": [
-          {
-            "id": "auditor-ti-matematica-s3-d6-1",
-            "track": "auditor-ti",
-            "subject": "Matemática e Raciocínio Lógico",
-            "goalId": "auditor-ti:matematica",
-            "title": "Probabilidade e eventos",
-            "focus": "Defina o espaço amostral de dois problemas e calcule as probabilidades solicitadas. Mostre o evento favorável e confira se o resultado está entre zero e um.",
-            "pdfKey": "c2ba0ed9",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-igualdade-s3-d6-2",
-            "track": "comuns",
-            "subject": "Igualdade racial e de gênero",
-            "goalId": "comuns:igualdade",
-            "title": "Estatuto da Igualdade Racial: direitos e instrumentos",
-            "focus": "Localize no PDF um direito e um instrumento de política pública. Explique como cada um se diferencia de uma conduta discriminatória e responda três itens de fixação.",
-            "pdfKey": "1ed60c1c",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "semana-4",
-    "title": "Semana 4 · Governança e controle",
-    "days": [
-      {
-        "day": 1,
-        "label": "Segunda-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s4-d1-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "Governança e planejamento de TI",
-            "focus": "Construa um quadro objetivo entre objetivo estratégico, serviço de TI, indicador e responsável. Use o material para apontar um risco de desalinhamento e o controle correspondente.",
-            "pdfKey": "0ebbb4a9",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-portugues-s4-d1-2",
-            "track": "comuns",
-            "subject": "Língua Portuguesa",
-            "goalId": "comuns:portugues",
-            "title": "Concordância, regência e pontuação",
-            "focus": "Resolva quatro itens do PDF e explique a regra em uma linha cada. Reescreva duas frases corrigindo a norma sem mudar a informação principal.",
-            "pdfKey": "b1ee2ac7",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 2,
-        "label": "Terça-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s4-d2-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "COBIT: objetivos, processos e evidências",
-            "focus": "Escolha um objetivo de governança do material e ligue-o a uma evidência verificável. Diferencie atividade de controle, indicador e resultado em um exemplo curto.",
-            "pdfKey": "d76ee236",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "agente-geral-economia-s4-d2-2",
-            "track": "agente-geral",
-            "subject": "Economia e Finanças Públicas",
-            "goalId": "agente-geral:economia",
-            "title": "Política fiscal e agregados macroeconômicos",
-            "focus": "Explique a cadeia entre gasto público, demanda agregada e resultado fiscal. Resolva um cenário do PDF e explicite qual hipótese macroeconômica sustenta a resposta.",
-            "pdfKey": "38c5d34c",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 3,
-        "label": "Quarta-feira",
-        "lessons": [
-          {
-            "id": "comuns-direito-tributario-s4-d3-1",
-            "track": "comuns",
-            "subject": "Direito Tributário",
-            "goalId": "comuns:direito-tributario",
-            "title": "Normas gerais de direito tributário",
-            "focus": "Diferencie vigência, aplicação e interpretação da legislação tributária. Aplique cada conceito a um caso de alteração normativa e justifique a conclusão com o material.",
-            "pdfKey": "7b1d0006",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 4,
-        "label": "Quinta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-discursiva-s4-d4-1",
-            "track": "auditor-ti",
-            "subject": "Discursiva de Tecnologia da Informação",
-            "goalId": "auditor-ti:discursiva",
-            "title": "Caso discursivo: valor agregado e desvios",
-            "focus": "Calcule os indicadores pedidos no caso, identifique desvio de prazo e custo e proponha uma ação corretiva vinculada ao diagnóstico. Confira fórmulas e justificativas no espelho.",
-            "pdfKey": "2fccaaec",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45,
-            "caseId": "ti-valor-agregado",
-            "sourceId": "pmi-valor-agregado"
-          },
-          {
-            "id": "agente-geral-casp-s4-d4-2",
-            "track": "agente-geral",
-            "subject": "Contabilidade Aplicada ao Setor Público",
-            "goalId": "agente-geral:casp",
-            "title": "Receitas e despesas públicas",
-            "focus": "Classifique os estágios da receita e da despesa no exemplo do PDF. Monte uma sequência de registros e explique o que ainda não representa pagamento.",
-            "pdfKey": "a79ade44",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 5,
-        "label": "Sexta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-gestao-s4-d5-1",
-            "track": "auditor-ti",
-            "subject": "Gestão Organizacional",
-            "goalId": "auditor-ti:gestao",
-            "title": "Gestão da qualidade e melhoria",
-            "focus": "Defina um problema de serviço, proponha indicador, causa provável e ação de melhoria. Use o ciclo mostrado no PDF e indique como verificaria se a ação funcionou.",
-            "pdfKey": "c6983c10",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 6,
-        "label": "Sábado",
-        "lessons": [
-          {
-            "id": "auditor-ti-matematica-s4-d6-1",
-            "track": "auditor-ti",
-            "subject": "Matemática e Raciocínio Lógico",
-            "goalId": "auditor-ti:matematica",
-            "title": "Análise combinatória: contagem e escolha",
-            "focus": "Resolva dois problemas identificando se a ordem importa e se há repetição. Registre a regra de contagem antes da operação para tornar o raciocínio auditável.",
-            "pdfKey": "fa8aab47",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-contabilidade-s4-d6-2",
-            "track": "comuns",
-            "subject": "Contabilidade Geral",
-            "goalId": "comuns:contabilidade",
-            "title": "Fatos contábeis e escrituração",
-            "focus": "Registre um fato permutativo, um modificativo e um misto. Mostre contas debitadas e creditadas e confira o efeito no patrimônio e no resultado.",
-            "pdfKey": "4ce73a76",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "semana-5",
-    "title": "Semana 5 · Consolidação e resposta",
-    "days": [
-      {
-        "day": 1,
-        "label": "Segunda-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s5-d1-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "Segurança da informação e backup",
-            "focus": "Liste ameaça, ativo, impacto e controle para um serviço fiscal. Diferencie cópia de segurança de recuperação testada e descreva a evidência que comprovaria o teste.",
-            "pdfKey": "4a5ea385",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-portugues-s5-d1-2",
-            "track": "comuns",
-            "subject": "Língua Portuguesa",
-            "goalId": "comuns:portugues",
-            "title": "Gêneros e tipologias textuais",
-            "focus": "Classifique objetivo e organização de três trechos. Identifique marcas de narração, exposição ou argumentação e responda qual evidência textual sustenta cada classificação.",
-            "pdfKey": "25aea03a",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 2,
-        "label": "Terça-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-tecnologia-s5-d2-1",
-            "track": "auditor-ti",
-            "subject": "Tecnologia da Informação",
-            "goalId": "auditor-ti:tecnologia",
-            "title": "Serviços e operações de TI",
-            "focus": "Organize um incidente em registro, prioridade, escalonamento, solução e encerramento. Compare seu fluxo ao material e indique o controle que evita fechar ocorrência sem evidência.",
-            "pdfKey": "315b34eb",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "agente-geral-administracao-publica-s5-d2-2",
-            "track": "agente-geral",
-            "subject": "Administração Pública",
-            "goalId": "agente-geral:administracao-publica",
-            "title": "Administração Pública: princípios e atuação",
-            "focus": "Separe princípio, agente, órgão e entidade nos exemplos do PDF. Escolha um caso e justifique qual princípio orienta a decisão e qual evidência permite revisá-la.",
-            "pdfKey": "aee5931c",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 3,
-        "label": "Quarta-feira",
-        "lessons": [
-          {
-            "id": "comuns-direito-tributario-s5-d3-1",
-            "track": "comuns",
-            "subject": "Direito Tributário",
-            "goalId": "comuns:direito-tributario",
-            "title": "Legislação tributária: aplicação e limites",
-            "focus": "Resolva um caso de aplicação temporal da norma. Identifique a regra geral, eventual exceção e fato decisivo; depois confira a justificativa no PDF.",
-            "pdfKey": "7b1d0006",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 4,
-        "label": "Quinta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-discursiva-s5-d4-1",
-            "track": "auditor-ti",
-            "subject": "Discursiva de Tecnologia da Informação",
-            "goalId": "auditor-ti:discursiva",
-            "title": "Revisão discursiva da prova histórica",
-            "focus": "Refaça a questão FCC sem consultar o espelho. Compare sua resposta à primeira tentativa, liste os comandos atendidos e reescreva o trecho que antes ficou incompleto.",
-            "pdfKey": "7265b0aa",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45,
-            "caseId": "fcc-2019-ti-discursiva",
-            "sourceId": "fcc-2019-ti-discursiva"
-          },
-          {
-            "id": "agente-geral-matematica-financeira-s5-d4-2",
-            "track": "agente-geral",
-            "subject": "Matemática Financeira",
-            "goalId": "agente-geral:matematica-financeira",
-            "title": "Sistemas de amortização",
-            "focus": "Compare a evolução de saldo e parcela em dois períodos. Identifique no PDF a diferença entre amortização e juros e confira o saldo após cada pagamento.",
-            "pdfKey": "4fa12860",
-            "pdfTrack": "agente-geral",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 5,
-        "label": "Sexta-feira",
-        "lessons": [
-          {
-            "id": "auditor-ti-gestao-s5-d5-1",
-            "track": "auditor-ti",
-            "subject": "Gestão Organizacional",
-            "goalId": "auditor-ti:gestao",
-            "title": "Liderança, responsabilidade e comunicação",
-            "focus": "Analise uma situação de equipe, identifique o problema de coordenação e escreva uma intervenção observável. Depois indique qual resultado mostraria que a intervenção funcionou.",
-            "pdfKey": "f082f9e7",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      },
-      {
-        "day": 6,
-        "label": "Sábado",
-        "lessons": [
-          {
-            "id": "auditor-ti-matematica-s5-d6-1",
-            "track": "auditor-ti",
-            "subject": "Matemática e Raciocínio Lógico",
-            "goalId": "auditor-ti:matematica",
-            "title": "Raciocínio sequencial e padrões",
-            "focus": "Resolva três sequências sem olhar o gabarito, descrevendo a regra em cada passo. Em uma delas, invente um distrator plausível e explique por que está errado.",
-            "pdfKey": "8acb6a6c",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          },
-          {
-            "id": "comuns-estatistica-s5-d6-2",
-            "track": "comuns",
-            "subject": "Estatística",
-            "goalId": "comuns:estatistica",
-            "title": "Medidas de posição",
-            "focus": "Calcule média e mediana para o conjunto proposto, explique qual medida representa melhor os dados e mostre como um valor extremo altera a leitura.",
-            "pdfKey": "44b45ef9",
-            "pdfTrack": "auditor-ti",
-            "durationMinutes": 45
-          }
-        ]
-      }
-    ]
-  }
-],
+    {
+      "id": "semana-1",
+      "title": "Semana 1 · Fundamentos",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s1-d1-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Ciclo de desenvolvimento e artefatos",
+              "focus": "Separe etapas, entregáveis e controles no PDF; desenhe um fluxo de quatro etapas para um sistema tributário e aponte onde cada requisito pode ser rastreado.",
+              "pdfKey": "3dc7d1a2",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-portugues-s1-d1-2",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Compreensão e inferência",
+              "focus": "Leia o texto do PDF, escreva a tese em uma frase e localize duas evidências. Resolva três itens de inferência e justifique cada resposta com o trecho correspondente.",
+              "pdfKey": "fb638d1d",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s1-d2-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Métodos ágeis e entrega incremental",
+              "focus": "Compare a abordagem iterativa com a sequencial no material; produza uma tabela com quando escolher cada uma, risco de mudança e evidência de aceite.",
+              "pdfKey": "8beeba57",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-001",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Questão de 2019 · Q7 · Maturidade de processos e análise de riscos",
+              "focus": "Na questão 7 da Prova II, tipo 001, de Auditor TI (2019), reconstrua o raciocínio cobrado sobre maturidade de processos e análise de riscos. Resolva primeiro sem consulta; depois compare sua justificativa com o material e registre o ponto que faltou.",
+              "pdfKey": "a2a394e9",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "comuns-direito-tributario-s1-d3-1",
+              "track": "comuns",
+              "subject": "Direito Tributário",
+              "goalId": "comuns:direito-tributario",
+              "title": "Obrigação tributária e fato gerador",
+              "focus": "Diferencie obrigação principal e acessória com um exemplo fiscal. Depois, classifique três fatos do material e indique sujeito ativo, sujeito passivo e momento de ocorrência.",
+              "pdfKey": "6f7820a7",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-discursiva-s1-d4-1",
+              "track": "auditor-ti",
+              "subject": "Discursiva de Tecnologia da Informação",
+              "goalId": "auditor-ti:discursiva",
+              "title": "Prova histórica: BPMN, SQL e valor agregado",
+              "focus": "Resolva a questão histórica sem consultar o espelho. Sublinhe cada comando, distribua o tempo entre os itens e use a rubrica do app para conferir cobertura e justificativas.",
+              "pdfKey": "7265b0aa",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45,
+              "caseId": "fcc-2019-ti-discursiva",
+              "sourceId": "fcc-2019-ti-discursiva"
+            },
+            {
+              "id": "auditor-ti-acervo-002",
+              "track": "comuns",
+              "subject": "Direito Constitucional",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Competências entre os entes federativos",
+              "focus": "Para competências entre os entes federativos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "b967293c",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-gestao-s1-d5-1",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Estrutura e desenho organizacional",
+              "focus": "Desenhe um organograma simples para uma unidade fiscal. Identifique cadeia de comando, amplitude de controle e dois riscos de sobreposição de responsabilidade com base no material.",
+              "pdfKey": "d1153b16",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-matematica-s1-d6-1",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Razão, proporção e regra de três",
+              "focus": "Resolva dois problemas de proporcionalidade com unidades explícitas. Antes de calcular, diga se a relação é direta ou inversa; confira o resultado por estimativa.",
+              "pdfKey": "3828adbd",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-contabilidade-s1-d6-2",
+              "track": "comuns",
+              "subject": "Contabilidade Geral",
+              "goalId": "comuns:contabilidade",
+              "title": "Patrimônio, contas e equação contábil",
+              "focus": "Classifique cinco fatos em ativo, passivo ou patrimônio líquido. Registre o efeito na equação patrimonial e explique por que o resultado fecha.",
+              "pdfKey": "4df71c7a",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-2",
+      "title": "Semana 2 · Processos e aplicação",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s2-d1-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Modelagem de processos de negócio",
+              "focus": "Modele um fluxo simples de atendimento em quatro passos usando início, tarefa, decisão e fim. Marque o ponto de controle e explique qual evidência provaria a execução.",
+              "pdfKey": "54745677",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-portugues-s2-d1-2",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Coesão e coerência",
+              "focus": "Reescreva um parágrafo do PDF usando dois conectores diferentes sem alterar a tese. Identifique a referência de três pronomes e resolva três questões do tema.",
+              "pdfKey": "4a947708",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s2-d2-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Engenharia de software: qualidade e processo",
+              "focus": "Monte uma matriz requisito–teste para três requisitos. Inclua um caso positivo, um limite e um erro; registre o critério objetivo de aprovação para cada teste.",
+              "pdfKey": "59cd44ce",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-003",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Aplicação guiada · Ativos, ameaças, controles e resposta a riscos",
+              "focus": "Para ativos, ameaças, controles e resposta a riscos, separe ativo, ameaça, vulnerabilidade, impacto e controle. Monte um cenário de serviço fiscal, classifique o risco e indique evidência para verificar a mitigação.",
+              "pdfKey": "a5b3aedc",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "comuns-direito-tributario-s2-d3-1",
+              "track": "comuns",
+              "subject": "Direito Tributário",
+              "goalId": "comuns:direito-tributario",
+              "title": "Constituição do crédito tributário",
+              "focus": "Organize em sequência ocorrência, lançamento e constituição do crédito. Diferencie lançamento de declaração e de ofício usando um exemplo e indique o efeito de uma omissão.",
+              "pdfKey": "6d3090df",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-discursiva-s2-d4-1",
+              "track": "auditor-ti",
+              "subject": "Discursiva de Tecnologia da Informação",
+              "goalId": "auditor-ti:discursiva",
+              "title": "Caso discursivo: processo e incidente",
+              "focus": "Abra o caso BPMN, desenhe o processo proposto com raias e decisões, e escreva duas regras para tratamento de exceções. Compare seu diagrama ao espelho e registre uma correção.",
+              "pdfKey": "54745677",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45,
+              "caseId": "ti-bpmn-incidentes"
+            },
+            {
+              "id": "auditor-ti-acervo-004",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Decisão de gestão · Avaliação de desempenho",
+              "focus": "Aplique avaliação de desempenho a uma unidade de fiscalização: descreva o problema, escolha uma ação de gestão, defina responsável e prazo, e indique um indicador observável para avaliar o resultado.",
+              "pdfKey": "2e0db8e4",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-gestao-s2-d5-1",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Planejamento e desdobramento de objetivos",
+              "focus": "Transforme um objetivo amplo em três metas mensuráveis. Para cada meta, defina responsável, prazo e indicador que permitiria acompanhar o resultado.",
+              "pdfKey": "704d8d66",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-matematica-s2-d6-1",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Operadores lógicos e negação",
+              "focus": "Traduza três afirmações para símbolos, negue cada uma sem trocar o sentido e monte a tabela-verdade de uma proposição composta do material.",
+              "pdfKey": "32c1d95f",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-estatistica-s2-d6-2",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Variáveis e leitura de dados",
+              "focus": "Classifique exemplos como qualitativos ou quantitativos e discretos ou contínuos. Leia uma tabela do PDF e escreva duas conclusões válidas e uma conclusão que os dados não permitem.",
+              "pdfKey": "8f21928d",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-3",
+      "title": "Semana 3 · Dados e responsabilidade",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s3-d1-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Business intelligence e remodelagem de dados",
+              "focus": "Esboce um fluxo da origem ao painel, marcando transformação, validação e consumo. Aponte dois riscos de qualidade e proponha uma verificação reproduzível para cada um.",
+              "pdfKey": "c07f190f",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-portugues-s3-d1-2",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Período simples: termos e relações",
+              "focus": "Analise três frases do PDF, localize núcleo do sujeito e predicado e classifique os complementos pedidos. Reescreva uma frase preservando a relação sintática.",
+              "pdfKey": "c17c02ee",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s3-d2-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Banco de dados: modelos e consistência",
+              "focus": "Compare no PDF os modelos de dados apresentados. Desenhe entidades e relações para um cadastro fiscal e aponte uma regra de integridade que precisa ser testada.",
+              "pdfKey": "604abcab",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-005",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Decisão de gestão · Excelência nos serviços públicos",
+              "focus": "Aplique excelência nos serviços públicos a uma unidade de fiscalização: descreva o problema, escolha uma ação de gestão, defina responsável e prazo, e indique um indicador observável para avaliar o resultado.",
+              "pdfKey": "c1234ddf",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "comuns-direito-tributario-s3-d3-1",
+              "track": "comuns",
+              "subject": "Direito Tributário",
+              "goalId": "comuns:direito-tributario",
+              "title": "Responsabilidade tributária",
+              "focus": "Separe responsabilidade por substituição e por transferência. Aplique os critérios do PDF a dois casos e indique qual fato adicional mudaria a conclusão.",
+              "pdfKey": "2fa72483",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-discursiva-s3-d4-1",
+              "track": "auditor-ti",
+              "subject": "Discursiva de Tecnologia da Informação",
+              "goalId": "auditor-ti:discursiva",
+              "title": "Caso discursivo: acesso a uma conta Oracle",
+              "focus": "Resolva o caso Oracle distinguindo alteração de senha, desbloqueio e privilégio de conexão. Escreva os comandos pedidos e justifique cada etapa com a documentação de apoio.",
+              "pdfKey": "3dc7d1a2",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45,
+              "caseId": "ti-sql-oracle",
+              "sourceId": "oracle-alter-user"
+            },
+            {
+              "id": "auditor-ti-acervo-006",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Decisão de gestão · Gestão do conhecimento e aprendizagem organizacional",
+              "focus": "Aplique gestão do conhecimento e aprendizagem organizacional a uma unidade de fiscalização: descreva o problema, escolha uma ação de gestão, defina responsável e prazo, e indique um indicador observável para avaliar o resultado.",
+              "pdfKey": "d5be5ff9",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-gestao-s3-d5-1",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Grupos, equipes e coordenação",
+              "focus": "Compare grupo e equipe em uma situação de fiscalização. Identifique objetivo comum, interdependência e uma ação de coordenação que possa ser observada.",
+              "pdfKey": "229ce2b8",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-matematica-s3-d6-1",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Probabilidade e eventos",
+              "focus": "Defina o espaço amostral de dois problemas e calcule as probabilidades solicitadas. Mostre o evento favorável e confira se o resultado está entre zero e um.",
+              "pdfKey": "c2ba0ed9",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-igualdade-s3-d6-2",
+              "track": "comuns",
+              "subject": "Igualdade racial e de gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Estatuto da Igualdade Racial: direitos e instrumentos",
+              "focus": "Localize no PDF um direito e um instrumento de política pública. Explique como cada um se diferencia de uma conduta discriminatória e responda três itens de fixação.",
+              "pdfKey": "1ed60c1c",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-4",
+      "title": "Semana 4 · Governança e controle",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s4-d1-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Governança e planejamento de TI",
+              "focus": "Construa um quadro objetivo entre objetivo estratégico, serviço de TI, indicador e responsável. Use o material para apontar um risco de desalinhamento e o controle correspondente.",
+              "pdfKey": "0ebbb4a9",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-portugues-s4-d1-2",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Concordância, regência e pontuação",
+              "focus": "Resolva quatro itens do PDF e explique a regra em uma linha cada. Reescreva duas frases corrigindo a norma sem mudar a informação principal.",
+              "pdfKey": "b1ee2ac7",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s4-d2-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "COBIT: objetivos, processos e evidências",
+              "focus": "Escolha um objetivo de governança do material e ligue-o a uma evidência verificável. Diferencie atividade de controle, indicador e resultado em um exemplo curto.",
+              "pdfKey": "d76ee236",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-007",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Decisão de gestão · Processo decisório",
+              "focus": "Aplique processo decisório a uma unidade de fiscalização: descreva o problema, escolha uma ação de gestão, defina responsável e prazo, e indique um indicador observável para avaliar o resultado.",
+              "pdfKey": "f002badd",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "comuns-direito-tributario-s4-d3-1",
+              "track": "comuns",
+              "subject": "Direito Tributário",
+              "goalId": "comuns:direito-tributario",
+              "title": "Normas gerais de direito tributário",
+              "focus": "Diferencie vigência, aplicação e interpretação da legislação tributária. Aplique cada conceito a um caso de alteração normativa e justifique a conclusão com o material.",
+              "pdfKey": "7b1d0006",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-discursiva-s4-d4-1",
+              "track": "auditor-ti",
+              "subject": "Discursiva de Tecnologia da Informação",
+              "goalId": "auditor-ti:discursiva",
+              "title": "Caso discursivo: valor agregado e desvios",
+              "focus": "Calcule os indicadores pedidos no caso, identifique desvio de prazo e custo e proponha uma ação corretiva vinculada ao diagnóstico. Confira fórmulas e justificativas no espelho.",
+              "pdfKey": "2fccaaec",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45,
+              "caseId": "ti-valor-agregado",
+              "sourceId": "pmi-valor-agregado"
+            },
+            {
+              "id": "auditor-ti-acervo-008",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Decisão de gestão · Gestão de conflitos",
+              "focus": "Aplique gestão de conflitos a uma unidade de fiscalização: descreva o problema, escolha uma ação de gestão, defina responsável e prazo, e indique um indicador observável para avaliar o resultado.",
+              "pdfKey": "41d04a63",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-gestao-s4-d5-1",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Gestão da qualidade e melhoria",
+              "focus": "Defina um problema de serviço, proponha indicador, causa provável e ação de melhoria. Use o ciclo mostrado no PDF e indique como verificaria se a ação funcionou.",
+              "pdfKey": "c6983c10",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-matematica-s4-d6-1",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Análise combinatória: contagem e escolha",
+              "focus": "Resolva dois problemas identificando se a ordem importa e se há repetição. Registre a regra de contagem antes da operação para tornar o raciocínio auditável.",
+              "pdfKey": "fa8aab47",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-contabilidade-s4-d6-2",
+              "track": "comuns",
+              "subject": "Contabilidade Geral",
+              "goalId": "comuns:contabilidade",
+              "title": "Fatos contábeis e escrituração",
+              "focus": "Registre um fato permutativo, um modificativo e um misto. Mostre contas debitadas e creditadas e confira o efeito no patrimônio e no resultado.",
+              "pdfKey": "4ce73a76",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-5",
+      "title": "Semana 5 · Consolidação e resposta",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s5-d1-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Segurança da informação e backup",
+              "focus": "Liste ameaça, ativo, impacto e controle para um serviço fiscal. Diferencie cópia de segurança de recuperação testada e descreva a evidência que comprovaria o teste.",
+              "pdfKey": "4a5ea385",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-portugues-s5-d1-2",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Gêneros e tipologias textuais",
+              "focus": "Classifique objetivo e organização de três trechos. Identifique marcas de narração, exposição ou argumentação e responda qual evidência textual sustenta cada classificação.",
+              "pdfKey": "25aea03a",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-tecnologia-s5-d2-1",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Serviços e operações de TI",
+              "focus": "Organize um incidente em registro, prioridade, escalonamento, solução e encerramento. Compare seu fluxo ao material e indique o controle que evita fechar ocorrência sem evidência.",
+              "pdfKey": "315b34eb",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-009",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Questão de 2019 · Q8 · Maturidade de processos e análise estratégica",
+              "focus": "Na questão 8 da Prova II, tipo 001, de Auditor TI (2019), reconstrua o raciocínio cobrado sobre maturidade de processos e análise estratégica. Resolva primeiro sem consulta; depois compare sua justificativa com o material e registre o ponto que faltou.",
+              "pdfKey": "bf89fc0a",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "comuns-direito-tributario-s5-d3-1",
+              "track": "comuns",
+              "subject": "Direito Tributário",
+              "goalId": "comuns:direito-tributario",
+              "title": "Legislação tributária: aplicação e limites",
+              "focus": "Resolva um caso de aplicação temporal da norma. Identifique a regra geral, eventual exceção e fato decisivo; depois confira a justificativa no PDF.",
+              "pdfKey": "7b1d0006",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-discursiva-s5-d4-1",
+              "track": "auditor-ti",
+              "subject": "Discursiva de Tecnologia da Informação",
+              "goalId": "auditor-ti:discursiva",
+              "title": "Revisão discursiva da prova histórica",
+              "focus": "Refaça a questão FCC sem consultar o espelho. Compare sua resposta à primeira tentativa, liste os comandos atendidos e reescreva o trecho que antes ficou incompleto.",
+              "pdfKey": "7265b0aa",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45,
+              "caseId": "fcc-2019-ti-discursiva",
+              "sourceId": "fcc-2019-ti-discursiva"
+            },
+            {
+              "id": "auditor-ti-acervo-010",
+              "track": "comuns",
+              "subject": "Direito Constitucional",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Vínculos de nacionalidade e seus efeitos",
+              "focus": "Para vínculos de nacionalidade e seus efeitos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "b572adc0",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-gestao-s5-d5-1",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Liderança, responsabilidade e comunicação",
+              "focus": "Analise uma situação de equipe, identifique o problema de coordenação e escreva uma intervenção observável. Depois indique qual resultado mostraria que a intervenção funcionou.",
+              "pdfKey": "f082f9e7",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-matematica-s5-d6-1",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Raciocínio sequencial e padrões",
+              "focus": "Resolva três sequências sem olhar o gabarito, descrevendo a regra em cada passo. Em uma delas, invente um distrator plausível e explique por que está errado.",
+              "pdfKey": "8acb6a6c",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "comuns-estatistica-s5-d6-2",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Medidas de posição",
+              "focus": "Calcule média e mediana para o conjunto proposto, explique qual medida representa melhor os dados e mostre como um valor extremo altera a leitura.",
+              "pdfKey": "44b45ef9",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-6",
+      "title": "Semana 6 · Gestão e raciocínio quantitativo",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-011",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Questão de 2019 · Q12 · Testes de regressão após mudanças",
+              "focus": "Na questão 12 da Prova II, tipo 001, de Auditor TI (2019), reconstrua o raciocínio cobrado sobre testes de regressão após mudanças. Resolva primeiro sem consulta; depois compare sua justificativa com o material e registre o ponto que faltou.",
+              "pdfKey": "638031c9",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-012",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Decisão de gestão · Comunicacao",
+              "focus": "Aplique comunicacao a uma unidade de fiscalização: descreva o problema, escolha uma ação de gestão, defina responsável e prazo, e indique um indicador observável para avaliar o resultado.",
+              "pdfKey": "46946a9e",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-013",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Decisão de gestão · Clima e cultura organizacional",
+              "focus": "Aplique clima e cultura organizacional a uma unidade de fiscalização: descreva o problema, escolha uma ação de gestão, defina responsável e prazo, e indique um indicador observável para avaliar o resultado.",
+              "pdfKey": "02f94d88",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-014",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Problema aplicado · Equações e relações entre variáveis",
+              "focus": "Resolva dois problemas de equações e relações entre variáveis. Escreva os dados e a regra antes da conta, explicite unidades ou hipótese lógica e confira cada resposta por estimativa ou caso contrário.",
+              "pdfKey": "885408d2",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-015",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Problema aplicado · Funções, gráficos e interpretação de resultados",
+              "focus": "Resolva dois problemas de funções, gráficos e interpretação de resultados. Escreva os dados e a regra antes da conta, explicite unidades ou hipótese lógica e confira cada resposta por estimativa ou caso contrário.",
+              "pdfKey": "b8e010f2",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-016",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Problema aplicado · Conjuntos numéricos e operações",
+              "focus": "Resolva dois problemas de conjuntos numéricos e operações. Escreva os dados e a regra antes da conta, explicite unidades ou hipótese lógica e confira cada resposta por estimativa ou caso contrário.",
+              "pdfKey": "412a5760",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-017",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Problema aplicado · Operador condicional",
+              "focus": "Resolva dois problemas de operador condicional. Escreva os dados e a regra antes da conta, explicite unidades ou hipótese lógica e confira cada resposta por estimativa ou caso contrário.",
+              "pdfKey": "b5e83b2d",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-018",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Problema aplicado · Conjuntos numéricos e operações",
+              "focus": "Resolva dois problemas de conjuntos numéricos e operações. Escreva os dados e a regra antes da conta, explicite unidades ou hipótese lógica e confira cada resposta por estimativa ou caso contrário.",
+              "pdfKey": "0b577cc4",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-019",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Problema aplicado · Funções, gráficos e interpretação de resultados",
+              "focus": "Resolva dois problemas de funções, gráficos e interpretação de resultados. Escreva os dados e a regra antes da conta, explicite unidades ou hipótese lógica e confira cada resposta por estimativa ou caso contrário.",
+              "pdfKey": "d57819aa",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-020",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Problema aplicado · Expansão algébrica e coeficientes",
+              "focus": "Resolva dois problemas de expansão algébrica e coeficientes. Escreva os dados e a regra antes da conta, explicite unidades ou hipótese lógica e confira cada resposta por estimativa ou caso contrário.",
+              "pdfKey": "6d72e873",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-7",
+      "title": "Semana 7 · Conhecimentos comuns do Auditor",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-021",
+              "track": "comuns",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Aplicação guiada · Proteção de direitos e aplicação da norma",
+              "focus": "Para proteção de direitos e aplicação da norma, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "334a0b5a",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-022",
+              "track": "comuns",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Aplicação guiada · Proteção de direitos e aplicação da norma",
+              "focus": "Para proteção de direitos e aplicação da norma, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "2d10adca",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-023",
+              "track": "comuns",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Aplicação guiada · Proteção de direitos e aplicação da norma",
+              "focus": "Para proteção de direitos e aplicação da norma, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "b499427e",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-024",
+              "track": "comuns",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Aplicação guiada · Lei n 2 889 1956 crime de genocidio",
+              "focus": "Para lei n 2 889 1956 crime de genocidio, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "595a4261",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-025",
+              "track": "comuns",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Aplicação guiada · Lei n 9 459 1997",
+              "focus": "Para lei n 9 459 1997, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "3c2b4b51",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-026",
+              "track": "comuns",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Aplicação guiada · Lei n 7 716 1989 crimes resultantes de preconceitos de raca ou de cor",
+              "focus": "Para lei n 7 716 1989 crimes resultantes de preconceitos de raca ou de cor, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "fd1e9747",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-027",
+              "track": "comuns",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Aplicação guiada · Lei n 11 340 2006 lei maria da penha",
+              "focus": "Para lei n 11 340 2006 lei maria da penha, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "1b88a116",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-028",
+              "track": "comuns",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Aplicação guiada · Lei n 7 437 1985 contravencoes penais a prática de atos resultantes de preconceito de raca de cor de sexo ou de estado civil",
+              "focus": "Para lei n 7 437 1985 contravencoes penais a prática de atos resultantes de preconceito de raca de cor de sexo ou de estado civil, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "8ecce124",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-029",
+              "track": "comuns",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "comuns:igualdade",
+              "title": "Aplicação guiada · Proteção de direitos e aplicação da norma",
+              "focus": "Para proteção de direitos e aplicação da norma, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "3a7adf6d",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-030",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Aplicação guiada · Medidas de assimetria e curtose",
+              "focus": "Para medidas de assimetria e curtose, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "a6953f5e",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-8",
+      "title": "Semana 8 · Conhecimentos comuns do Auditor",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-031",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Aplicação guiada · Intervalos de confianca",
+              "focus": "Para intervalos de confianca, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "a73db265",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-032",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Aplicação guiada · Distribuicoes conjuntas de probabilidade",
+              "focus": "Para distribuicoes conjuntas de probabilidade, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "1f102750",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-033",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Aplicação guiada · Testes de hipoteses e estatistica inferencial",
+              "focus": "Para testes de hipoteses e estatistica inferencial, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "0635d69b",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-034",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Aplicação guiada · Outras distribuicoes de probabilidade",
+              "focus": "Para outras distribuicoes de probabilidade, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "353ed452",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-035",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Aplicação guiada · Distribuicao de probabilidade",
+              "focus": "Para distribuicao de probabilidade, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "860c668b",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-036",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Aplicação guiada · Covariancia e correlacao",
+              "focus": "Para covariancia e correlacao, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "d03508c6",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-037",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Aplicação guiada · Variancia e desvio padrao",
+              "focus": "Para variancia e desvio padrao, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "9d9ebde7",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-038",
+              "track": "comuns",
+              "subject": "Estatística",
+              "goalId": "comuns:estatistica",
+              "title": "Aplicação guiada · Probabilidades",
+              "focus": "Para probabilidades, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "79570a34",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-039",
+              "track": "comuns",
+              "subject": "Contabilidade Geral",
+              "goalId": "comuns:contabilidade",
+              "title": "Aplicação guiada · Patrimonio liquido",
+              "focus": "Para patrimonio liquido, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "a487c870",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-040",
+              "track": "comuns",
+              "subject": "Contabilidade Geral",
+              "goalId": "comuns:contabilidade",
+              "title": "Aplicação guiada · Demonstracoes obrigatorias e balanco patrimonial",
+              "focus": "Para demonstracoes obrigatorias e balanco patrimonial, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "175a816e",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-9",
+      "title": "Semana 9 · Direito público aplicado",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-041",
+              "track": "comuns",
+              "subject": "Contabilidade Geral",
+              "goalId": "comuns:contabilidade",
+              "title": "Aplicação guiada · Analise das demonstracoes contabeis",
+              "focus": "Para analise das demonstracoes contabeis, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "6fbbfafd",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-042",
+              "track": "comuns",
+              "subject": "Contabilidade Geral",
+              "goalId": "comuns:contabilidade",
+              "title": "Aplicação guiada · Principios e normas brasileiras de contabilidade emanadas pelo conselho federal de contabilidade",
+              "focus": "Para principios e normas brasileiras de contabilidade emanadas pelo conselho federal de contabilidade, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "00645f85",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-043",
+              "track": "comuns",
+              "subject": "Contabilidade Geral",
+              "goalId": "comuns:contabilidade",
+              "title": "Aplicação guiada · Ajustes trazidos pelas leis n 11 638 2007 e 11 941 2009",
+              "focus": "Para ajustes trazidos pelas leis n 11 638 2007 e 11 941 2009, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "c1691018",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-044",
+              "track": "comuns",
+              "subject": "Contabilidade Geral",
+              "goalId": "comuns:contabilidade",
+              "title": "Aplicação guiada · Contas patrimoniais e de resultado plano de contas",
+              "focus": "Para contas patrimoniais e de resultado plano de contas, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "5678870e",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-045",
+              "track": "comuns",
+              "subject": "Direito Tributário",
+              "goalId": "comuns:direito-tributario",
+              "title": "Aplicação guiada · Normas gerais de direito tributário",
+              "focus": "Para normas gerais de direito tributário, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "f0720318",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-046",
+              "track": "comuns",
+              "subject": "Direito Tributário",
+              "goalId": "comuns:direito-tributario",
+              "title": "Aplicação guiada · Competencia tributária",
+              "focus": "Para competencia tributária, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "c62a6d66",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-047",
+              "track": "comuns",
+              "subject": "Direito Tributário",
+              "goalId": "comuns:direito-tributario",
+              "title": "Aplicação guiada · Limitacoes constitucionais ao poder de tributar",
+              "focus": "Para limitacoes constitucionais ao poder de tributar, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "f0757cb3",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-048",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Lei n 9 433 1997 e suas alteracoes politica nacional de recursos hidricos parte i",
+              "focus": "Para lei n 9 433 1997 e suas alteracoes politica nacional de recursos hidricos parte i, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "d46db4b7",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-049",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Organização administrativa",
+              "focus": "Para organização administrativa, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "a529961d",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-050",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Lei n 13 303 2016 lei das estatais",
+              "focus": "Para lei n 13 303 2016 lei das estatais, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "2f3dc8a7",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-10",
+      "title": "Semana 10 · Direito público aplicado",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-051",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Fases, critérios e controles da contratação pública",
+              "focus": "Para fases, critérios e controles da contratação pública, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "82a4813b",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-052",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Falhas de mercado e respostas públicas",
+              "focus": "Para falhas de mercado e respostas públicas, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "f9aa3baa",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-053",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Lei n 9 433 1997 e suas alteracoes politica nacional de recursos hidricos parte ii",
+              "focus": "Para lei n 9 433 1997 e suas alteracoes politica nacional de recursos hidricos parte ii, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "1898f602",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-054",
+              "track": "comuns",
+              "subject": "Direito Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Fases, critérios e controles da contratação pública",
+              "focus": "Para fases, critérios e controles da contratação pública, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "d463ba69",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-055",
+              "track": "comuns",
+              "subject": "Direito Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Controle da administração publica",
+              "focus": "Para controle da administração publica, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "3ec2e05d",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-056",
+              "track": "comuns",
+              "subject": "Direito Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Competência, procedimento e controle administrativo",
+              "focus": "Para competência, procedimento e controle administrativo, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "08b8c257",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-057",
+              "track": "comuns",
+              "subject": "Direito Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Competência, procedimento e controle administrativo",
+              "focus": "Para competência, procedimento e controle administrativo, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "93de9577",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-058",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Poder executivo",
+              "focus": "Para poder executivo, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "3a2ebc0b",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-059",
+              "track": "comuns",
+              "subject": "Direito Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Administração publica",
+              "focus": "Para administração publica, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "9f5c2c32",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-060",
+              "track": "comuns",
+              "subject": "Direito Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Competência, procedimento e controle administrativo",
+              "focus": "Para competência, procedimento e controle administrativo, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "8fb0183e",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-11",
+      "title": "Semana 11 · Direito público aplicado",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-061",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Direitos politicos e partidos politicos",
+              "focus": "Para direitos politicos e partidos politicos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "21b695cd",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-062",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Direitos e deveres individuais e coletivos",
+              "focus": "Para direitos e deveres individuais e coletivos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "917602a2",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-063",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Defesa do estado e das instituicoes democraticas",
+              "focus": "Para defesa do estado e das instituicoes democraticas, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "4de1eccb",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-064",
+              "track": "comuns",
+              "subject": "Direito Constitucional",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Competências, direitos e limites constitucionais",
+              "focus": "Para competências, direitos e limites constitucionais, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "0c2177f0",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-065",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Organização politico administrativa do estado",
+              "focus": "Para organização politico administrativa do estado, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "d5be609f",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-066",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Principios fundamentais",
+              "focus": "Para principios fundamentais, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "4f05187a",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-067",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Direitos sociais",
+              "focus": "Para direitos sociais, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "576df58f",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-068",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Atos administrativos",
+              "focus": "Para atos administrativos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "18083ff9",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-069",
+              "track": "comuns",
+              "subject": "Direito Constitucional e Administrativo",
+              "goalId": "comuns:direito-publico",
+              "title": "Caso de direito público · Poder constituinte",
+              "focus": "Para poder constituinte, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "08cf6d35",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-070",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "eeca386c",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-12",
+      "title": "Semana 12 · Conhecimentos comuns do Auditor",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-071",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Aplicação guiada · Estrutura e processos de formacao de palavras",
+              "focus": "No estudo de estrutura e processos de formacao de palavras, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "c0b6269c",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-072",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Aplicação guiada · Funções, gráficos e interpretação de resultados",
+              "focus": "No estudo de funções, gráficos e interpretação de resultados, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "3ce6fae2",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-073",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Aplicação guiada · Tecnicas de redacao",
+              "focus": "No estudo de tecnicas de redacao, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "1fdbd8af",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-acervo-074",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "dd848170",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-075",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "c4cf5566",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-acervo-076",
+              "track": "comuns",
+              "subject": "Língua Portuguesa",
+              "goalId": "comuns:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "c7c0cab6",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-revisao-01",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Revisão espaçada · Tecnologia da Informação",
+              "focus": "Sem abrir o PDF, reconstrua os critérios estudados em “Ciclo de desenvolvimento e artefatos” e aplique-os a um exemplo diferente. Depois confira o material, corrija uma lacuna e resolva duas questões sem consulta.",
+              "pdfKey": "3dc7d1a2",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-revisao-02",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Revisão espaçada · Tecnologia da Informação",
+              "focus": "Sem abrir o PDF, reconstrua os critérios estudados em “Ciclo de desenvolvimento e artefatos” e aplique-os a um exemplo diferente. Depois confira o material, corrija uma lacuna e resolva duas questões sem consulta.",
+              "pdfKey": "3dc7d1a2",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "auditor-ti-revisao-03",
+              "track": "auditor-ti",
+              "subject": "Tecnologia da Informação",
+              "goalId": "auditor-ti:tecnologia",
+              "title": "Revisão espaçada · Tecnologia da Informação",
+              "focus": "Sem abrir o PDF, reconstrua os critérios estudados em “Ciclo de desenvolvimento e artefatos” e aplique-os a um exemplo diferente. Depois confira o material, corrija uma lacuna e resolva duas questões sem consulta.",
+              "pdfKey": "3dc7d1a2",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-revisao-04",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Revisão espaçada · Gestão Organizacional",
+              "focus": "Sem abrir o PDF, reconstrua os critérios estudados em “Estrutura e desenho organizacional” e aplique-os a um exemplo diferente. Depois confira o material, corrija uma lacuna e resolva duas questões sem consulta.",
+              "pdfKey": "d1153b16",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-13",
+      "title": "Semana 13 · Revisão e transição ao complemento",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-revisao-05",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Revisão espaçada · Gestão Organizacional",
+              "focus": "Sem abrir o PDF, reconstrua os critérios estudados em “Estrutura e desenho organizacional” e aplique-os a um exemplo diferente. Depois confira o material, corrija uma lacuna e resolva duas questões sem consulta.",
+              "pdfKey": "d1153b16",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-revisao-06",
+              "track": "auditor-ti",
+              "subject": "Gestão Organizacional",
+              "goalId": "auditor-ti:gestao",
+              "title": "Revisão espaçada · Gestão Organizacional",
+              "focus": "Sem abrir o PDF, reconstrua os critérios estudados em “Estrutura e desenho organizacional” e aplique-os a um exemplo diferente. Depois confira o material, corrija uma lacuna e resolva duas questões sem consulta.",
+              "pdfKey": "d1153b16",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-revisao-07",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Revisão espaçada · Matemática e Raciocínio Lógico",
+              "focus": "Sem abrir o PDF, reconstrua os critérios estudados em “Razão, proporção e regra de três” e aplique-os a um exemplo diferente. Depois confira o material, corrija uma lacuna e resolva duas questões sem consulta.",
+              "pdfKey": "3828adbd",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            },
+            {
+              "id": "auditor-ti-revisao-08",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Revisão espaçada · Matemática e Raciocínio Lógico",
+              "focus": "Sem abrir o PDF, reconstrua os critérios estudados em “Razão, proporção e regra de três” e aplique-os a um exemplo diferente. Depois confira o material, corrija uma lacuna e resolva duas questões sem consulta.",
+              "pdfKey": "3828adbd",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "auditor-ti-revisao-09",
+              "track": "auditor-ti",
+              "subject": "Matemática e Raciocínio Lógico",
+              "goalId": "auditor-ti:matematica",
+              "title": "Revisão espaçada · Matemática e Raciocínio Lógico",
+              "focus": "Sem abrir o PDF, reconstrua os critérios estudados em “Razão, proporção e regra de três” e aplique-os a um exemplo diferente. Depois confira o material, corrija uma lacuna e resolva duas questões sem consulta.",
+              "pdfKey": "3828adbd",
+              "pdfTrack": "auditor-ti",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-economia-s2-d2-2",
+              "track": "agente-geral",
+              "subject": "Economia e Finanças Públicas",
+              "goalId": "agente-geral:economia",
+              "title": "Dívida pública e política fiscal",
+              "focus": "Desenhe a relação entre receita, despesa, resultado e dívida. Interprete um cenário do PDF e identifique qual indicador mudaria primeiro e por quê.",
+              "pdfKey": "73590d03",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-economia-s4-d2-2",
+              "track": "agente-geral",
+              "subject": "Economia e Finanças Públicas",
+              "goalId": "agente-geral:economia",
+              "title": "Política fiscal e agregados macroeconômicos",
+              "focus": "Explique a cadeia entre gasto público, demanda agregada e resultado fiscal. Resolva um cenário do PDF e explicite qual hipótese macroeconômica sustenta a resposta.",
+              "pdfKey": "38c5d34c",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-001",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Causas, indicadores e respostas à inflação",
+              "focus": "Para causas, indicadores e respostas à inflação, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "446d950e",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-002",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 11 18 48 ed9418d7038c42aea55e248edcbb509e",
+              "focus": "Para 11 18 48 ed9418d7038c42aea55e248edcbb509e, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "1af9e704",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-003",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · A3bf44ed9679778fb4539f1b",
+              "focus": "Para a3bf44ed9679778fb4539f1b, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "523d37e1",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-14",
+      "title": "Semana 14 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-004",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Introducao a macroeconomia",
+              "focus": "Para introducao a macroeconomia, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "19aa92c5",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-005",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 10 38 12 b6fc66a6b31147ec93d5942e10a93261",
+              "focus": "Para 10 38 12 b6fc66a6b31147ec93d5942e10a93261, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "e351f23d",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-006",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 10 52 08 a569a5ca823f4478a0ae5b5c28951927",
+              "focus": "Para 10 52 08 a569a5ca823f4478a0ae5b5c28951927, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "4f96ea48",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-007",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 08 21 06 9daa1449752b40099cb51bb77381d2e3",
+              "focus": "Para 08 21 06 9daa1449752b40099cb51bb77381d2e3, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "3f258e97",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-008",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 10 50 28 aef1304dad0b4da5b516aa5b8c85b8af",
+              "focus": "Para 10 50 28 aef1304dad0b4da5b516aa5b8c85b8af, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "3f44a739",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-009",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 10 39 51 2c380ce691ae4f348b526d5ab27b323f",
+              "focus": "Para 10 39 51 2c380ce691ae4f348b526d5ab27b323f, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "253af4b2",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-010",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 09 22 31 d27aaa9251a74bdb8f113bda7ea74e6a",
+              "focus": "Para 09 22 31 d27aaa9251a74bdb8f113bda7ea74e6a, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "37e4f431",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-011",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 09 20 38 4ce4498e6d6e4146b4148c7c23e15fde",
+              "focus": "Para 09 20 38 4ce4498e6d6e4146b4148c7c23e15fde, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "bd7915e4",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-012",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 11 31 44 85556e374ed84ce98ea59b3c9907b737",
+              "focus": "Para 11 31 44 85556e374ed84ce98ea59b3c9907b737, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "ae1b1d38",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-013",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 11 33 36 93b62a93a861414b98ca38697e3ac0e2",
+              "focus": "Para 11 33 36 93b62a93a861414b98ca38697e3ac0e2, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "0059ee1e",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-15",
+      "title": "Semana 15 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-014",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 11 13 49 2f843d0aecf04894a9bb0efd62ce4b41",
+              "focus": "Para 11 13 49 2f843d0aecf04894a9bb0efd62ce4b41, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "2331a67c",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-015",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Contas nacionais",
+              "focus": "Para contas nacionais, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "2e70a7c7",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-016",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Falhas de mercado e respostas públicas",
+              "focus": "Para falhas de mercado e respostas públicas, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "5dc7d5f3",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-017",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Relações macroeconômicas e efeitos de política",
+              "focus": "Para relações macroeconômicas e efeitos de política, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "0549cabd",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-018",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Agregados monetarios",
+              "focus": "Para agregados monetarios, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "c46d531b",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-019",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Introducao a macroeconomia",
+              "focus": "Para introducao a macroeconomia, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "95fa4449",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-020",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Escolhas, restrições e equilíbrio econômico",
+              "focus": "Para escolhas, restrições e equilíbrio econômico, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "8eedb891",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-021",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Escolhas, restrições e equilíbrio econômico",
+              "focus": "Para escolhas, restrições e equilíbrio econômico, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "832e139c",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-022",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Comportamento dos custos e decisão econômica",
+              "focus": "Para comportamento dos custos e decisão econômica, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "80b0c4fe",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-023",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Falhas de mercado e respostas públicas",
+              "focus": "Para falhas de mercado e respostas públicas, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "662bdfbe",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-16",
+      "title": "Semana 16 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-024",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · 11 19 08 38738d0a5e034a2b9d98554a4cf366b5",
+              "focus": "Para 11 19 08 38738d0a5e034a2b9d98554a4cf366b5, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "311efa8e",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-025",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Contas nacionais",
+              "focus": "Para contas nacionais, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "1127cddd",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-026",
+              "track": "agente-geral",
+              "subject": "Economia",
+              "goalId": "agente-geral:economia",
+              "title": "Aplicação guiada · Agregados monetarios",
+              "focus": "Para agregados monetarios, desenhe a cadeia causa–efeito entre variáveis, explicite a hipótese usada e resolva dois cenários alterando apenas uma condição de cada vez.",
+              "pdfKey": "b6615cdb",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-casp-s1-d4-2",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Estrutura conceitual da CASP",
+              "focus": "Do PDF, extraia objetivo, usuário e característica qualitativa da informação pública. Aplique os três pontos a um exemplo de decisão orçamentária e confira se cada resposta tem fundamento.",
+              "pdfKey": "398a032b",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-casp-s4-d4-2",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Receitas e despesas públicas",
+              "focus": "Classifique os estágios da receita e da despesa no exemplo do PDF. Monte uma sequência de registros e explique o que ainda não representa pagamento.",
+              "pdfKey": "a79ade44",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-027",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Nbc tsp 01 e 02 receita com e sem contraprestacao",
+              "focus": "Para nbc tsp 01 e 02 receita com e sem contraprestacao, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "6987768d",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-028",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Nbc tsp 04",
+              "focus": "Para nbc tsp 04, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "fe8f317e",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-029",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Dfc e dmpl",
+              "focus": "Para dfc e dmpl, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "38aeb1d3",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-030",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Nbc tsp 03 provisoes passivos contingentes ativos contingentes",
+              "focus": "Para nbc tsp 03 provisoes passivos contingentes ativos contingentes, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "d1f3ef45",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-031",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Balanco orcamentario e financeiro",
+              "focus": "Para balanco orcamentario e financeiro, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "a8d3c6f6",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-17",
+      "title": "Semana 17 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-032",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Balanco patrimonial e dvp",
+              "focus": "Para balanco patrimonial e dvp, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "09a2aa85",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-033",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Registro, classificação e efeito patrimonial público",
+              "focus": "Para registro, classificação e efeito patrimonial público, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "e6fb299b",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-034",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Nbc tsp estrutura conceitual",
+              "focus": "Para nbc tsp estrutura conceitual, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "6417154f",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-035",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Variacoes patrimoniais",
+              "focus": "Para variacoes patrimoniais, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "11832bb6",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-036",
+              "track": "agente-geral",
+              "subject": "Contabilidade Aplicada ao Setor Público",
+              "goalId": "agente-geral:casp",
+              "title": "Aplicação guiada · Mensuracao do patrimonio publico",
+              "focus": "Para mensuracao do patrimonio publico, registre um fato contábil completo, indique contas e efeito no patrimônio ou orçamento, e confira em qual demonstração a informação aparece.",
+              "pdfKey": "9b6238ca",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-matematica-financeira-s2-d4-2",
+              "track": "agente-geral",
+              "subject": "Matemática Financeira",
+              "goalId": "agente-geral:matematica-financeira",
+              "title": "Juros simples e valor final",
+              "focus": "Resolva um problema do PDF indicando capital, taxa, prazo e unidade temporal. Faça o cálculo por fórmula e por decomposição; explique a diferença entre juros e montante.",
+              "pdfKey": "5596df07",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-matematica-financeira-s5-d4-2",
+              "track": "agente-geral",
+              "subject": "Matemática Financeira",
+              "goalId": "agente-geral:matematica-financeira",
+              "title": "Sistemas de amortização",
+              "focus": "Compare a evolução de saldo e parcela em dois períodos. Identifique no PDF a diferença entre amortização e juros e confira o saldo após cada pagamento.",
+              "pdfKey": "4fa12860",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-037",
+              "track": "agente-geral",
+              "subject": "Matemática Financeira",
+              "goalId": "agente-geral:matematica-financeira",
+              "title": "Aplicação guiada · Calculo financeiro",
+              "focus": "Para calculo financeiro, identifique capital, taxa, prazo e unidade temporal. Resolva um exemplo e confira o resultado por uma segunda forma de cálculo.",
+              "pdfKey": "d46cbf38",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-038",
+              "track": "agente-geral",
+              "subject": "Matemática Financeira",
+              "goalId": "agente-geral:matematica-financeira",
+              "title": "Aplicação guiada · Rendas uniformes e variaveis",
+              "focus": "Para rendas uniformes e variaveis, identifique capital, taxa, prazo e unidade temporal. Resolva um exemplo e confira o resultado por uma segunda forma de cálculo.",
+              "pdfKey": "de8b5bbc",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-039",
+              "track": "agente-geral",
+              "subject": "Matemática Financeira",
+              "goalId": "agente-geral:matematica-financeira",
+              "title": "Aplicação guiada · Descontos",
+              "focus": "Para descontos, identifique capital, taxa, prazo e unidade temporal. Resolva um exemplo e confira o resultado por uma segunda forma de cálculo.",
+              "pdfKey": "9626915f",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-18",
+      "title": "Semana 18 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-040",
+              "track": "agente-geral",
+              "subject": "Matemática Financeira",
+              "goalId": "agente-geral:matematica-financeira",
+              "title": "Aplicação guiada · Equivalencia de capitais",
+              "focus": "Para equivalencia de capitais, identifique capital, taxa, prazo e unidade temporal. Resolva um exemplo e confira o resultado por uma segunda forma de cálculo.",
+              "pdfKey": "e1d1e2fa",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-041",
+              "track": "agente-geral",
+              "subject": "Matemática Financeira",
+              "goalId": "agente-geral:matematica-financeira",
+              "title": "Aplicação guiada · Juros, taxas e valor do dinheiro no tempo",
+              "focus": "Para juros, taxas e valor do dinheiro no tempo, identifique capital, taxa, prazo e unidade temporal. Resolva um exemplo e confira o resultado por uma segunda forma de cálculo.",
+              "pdfKey": "7e240796",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-informatica-s3-d4-2",
+              "track": "agente-geral",
+              "subject": "Informática Básica",
+              "goalId": "agente-geral:informatica",
+              "title": "Sistema operacional e organização de arquivos",
+              "focus": "No ambiente descrito no material, execute mentalmente o fluxo de criar, localizar, mover e recuperar um arquivo. Registre atalhos ou menus e a consequência de cada ação.",
+              "pdfKey": "661125c5",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-042",
+              "track": "agente-geral",
+              "subject": "Informática Básica",
+              "goalId": "agente-geral:informatica",
+              "title": "Aplicação guiada · Engenharia de requisitos de software parte ii",
+              "focus": "Para engenharia de requisitos de software parte ii, escreva o procedimento em etapas, o resultado esperado e um erro comum. Aplique o procedimento a um arquivo ou dado de trabalho e explique como recuperar uma falha.",
+              "pdfKey": "22b97ea8",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-043",
+              "track": "agente-geral",
+              "subject": "Informática Básica",
+              "goalId": "agente-geral:informatica",
+              "title": "Aplicação guiada · Engenharia de requisitos de software parte i",
+              "focus": "Para engenharia de requisitos de software parte i, escreva o procedimento em etapas, o resultado esperado e um erro comum. Aplique o procedimento a um arquivo ou dado de trabalho e explique como recuperar uma falha.",
+              "pdfKey": "9f6735b3",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-044",
+              "track": "agente-geral",
+              "subject": "Informática Básica",
+              "goalId": "agente-geral:informatica",
+              "title": "Aplicação guiada · Pmbok 7",
+              "focus": "Para pmbok 7, escreva o procedimento em etapas, o resultado esperado e um erro comum. Aplique o procedimento a um arquivo ou dado de trabalho e explique como recuperar uma falha.",
+              "pdfKey": "2fccaaec",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-045",
+              "track": "agente-geral",
+              "subject": "Informática Básica",
+              "goalId": "agente-geral:informatica",
+              "title": "Aplicação guiada · Libreoffice 7 calc",
+              "focus": "Para libreoffice 7 calc, escreva o procedimento em etapas, o resultado esperado e um erro comum. Aplique o procedimento a um arquivo ou dado de trabalho e explique como recuperar uma falha.",
+              "pdfKey": "f0331892",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-046",
+              "track": "agente-geral",
+              "subject": "Informática Básica",
+              "goalId": "agente-geral:informatica",
+              "title": "Aplicação guiada · Libreoffice 7 impress",
+              "focus": "Para libreoffice 7 impress, escreva o procedimento em etapas, o resultado esperado e um erro comum. Aplique o procedimento a um arquivo ou dado de trabalho e explique como recuperar uma falha.",
+              "pdfKey": "539a4e7b",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-047",
+              "track": "agente-geral",
+              "subject": "Informática Básica",
+              "goalId": "agente-geral:informatica",
+              "title": "Aplicação guiada · Libreoffice 7 writer",
+              "focus": "Para libreoffice 7 writer, escreva o procedimento em etapas, o resultado esperado e um erro comum. Aplique o procedimento a um arquivo ou dado de trabalho e explique como recuperar uma falha.",
+              "pdfKey": "b21184a1",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-048",
+              "track": "agente-geral",
+              "subject": "Informática Básica",
+              "goalId": "agente-geral:informatica",
+              "title": "Aplicação guiada · Hardware e software",
+              "focus": "Para hardware e software, escreva o procedimento em etapas, o resultado esperado e um erro comum. Aplique o procedimento a um arquivo ou dado de trabalho e explique como recuperar uma falha.",
+              "pdfKey": "5ab90ae0",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-19",
+      "title": "Semana 19 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-049",
+              "track": "agente-geral",
+              "subject": "Direito Tributário",
+              "goalId": "agente-geral:tributario",
+              "title": "Aplicação guiada · Responsabilidade tributária",
+              "focus": "Para responsabilidade tributária, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "2fa72483",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-050",
+              "track": "agente-geral",
+              "subject": "Direito Tributário",
+              "goalId": "agente-geral:tributario",
+              "title": "Aplicação guiada · 14 26 19 a8fb3e98e7bc497c923f8d39b1706edc",
+              "focus": "Para 14 26 19 a8fb3e98e7bc497c923f8d39b1706edc, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "f8e783aa",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-051",
+              "track": "agente-geral",
+              "subject": "Direito Tributário",
+              "goalId": "agente-geral:tributario",
+              "title": "Aplicação guiada · Da1fc049b59cb71ec9cf31cdb7",
+              "focus": "Para da1fc049b59cb71ec9cf31cdb7, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "7a0c338e",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-052",
+              "track": "agente-geral",
+              "subject": "Direito Tributário",
+              "goalId": "agente-geral:tributario",
+              "title": "Aplicação guiada · 13 50 57 9aa44773bea341a7925e5197972fcfcb",
+              "focus": "Para 13 50 57 9aa44773bea341a7925e5197972fcfcb, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "ae1bb655",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-053",
+              "track": "agente-geral",
+              "subject": "Direito Tributário",
+              "goalId": "agente-geral:tributario",
+              "title": "Aplicação guiada · 13 27 59 1f97844a7c2a4f558cb8476c9b74fff3",
+              "focus": "Para 13 27 59 1f97844a7c2a4f558cb8476c9b74fff3, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "4672600b",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-054",
+              "track": "agente-geral",
+              "subject": "Direito Tributário",
+              "goalId": "agente-geral:tributario",
+              "title": "Aplicação guiada · Credito tributário",
+              "focus": "Para credito tributário, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "fb026738",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-055",
+              "track": "agente-geral",
+              "subject": "Direito Tributário",
+              "goalId": "agente-geral:tributario",
+              "title": "Aplicação guiada · Introducao ao direito tributário",
+              "focus": "Para introducao ao direito tributário, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "598c7c08",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-056",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Atos administrativos",
+              "focus": "Para atos administrativos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "53b8fe45",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-057",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Organização administrativa",
+              "focus": "Para organização administrativa, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "76036ef2",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-058",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Lei n 8 987 1995 serviços públicos",
+              "focus": "Para lei n 8 987 1995 serviços públicos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "564ae536",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-20",
+      "title": "Semana 20 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-059",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Falhas de mercado e respostas públicas",
+              "focus": "Para falhas de mercado e respostas públicas, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "13c8a133",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-060",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Lei n 8 429 1992 improbidade administrativa",
+              "focus": "Para lei n 8 429 1992 improbidade administrativa, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "f2e820af",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-061",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Controle administrativo",
+              "focus": "Para controle administrativo, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "9ac38039",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-062",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Introducao ao direito administrativo",
+              "focus": "Para introducao ao direito administrativo, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "57437714",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-063",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Responsabilidade civil do estado",
+              "focus": "Para responsabilidade civil do estado, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "7e1c74ae",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-064",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Intervencao do estado na propriedade",
+              "focus": "Para intervencao do estado na propriedade, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "0df58e98",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-065",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Poderes administrativos",
+              "focus": "Para poderes administrativos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "fcab677a",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-066",
+              "track": "agente-geral",
+              "subject": "Direito Administrativo",
+              "goalId": "agente-geral:administrativo",
+              "title": "Aplicação guiada · Agentes públicos especie e classificacao",
+              "focus": "Para agentes públicos especie e classificacao, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "7c9cc56e",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-067",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Competências, direitos e limites constitucionais",
+              "focus": "Para competências, direitos e limites constitucionais, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "d85050e6",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-068",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Competências, direitos e limites constitucionais",
+              "focus": "Para competências, direitos e limites constitucionais, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "83d2aa5f",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-21",
+      "title": "Semana 21 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-069",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Ordem social",
+              "focus": "Para ordem social, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "43dcbc93",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-070",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Ordem economica e financeira",
+              "focus": "Para ordem economica e financeira, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "1b694a85",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-071",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Funcoes essenciais a justica",
+              "focus": "Para funcoes essenciais a justica, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "8e2accbd",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-072",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Poder judiciario",
+              "focus": "Para poder judiciario, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "697d4ca9",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-073",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Poder legislativo",
+              "focus": "Para poder legislativo, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "fb0a27dd",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-074",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Teoria geral dos direitos e garantias fundamentais",
+              "focus": "Para teoria geral dos direitos e garantias fundamentais, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "697b317b",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-075",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Organização politico administrativa do estado",
+              "focus": "Para organização politico administrativa do estado, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "d0e099b2",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-076",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Direitos politicos e partidos politicos",
+              "focus": "Para direitos politicos e partidos politicos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "cc1b443e",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-077",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Direitos sociais",
+              "focus": "Para direitos sociais, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "d2883ce9",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-078",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Direitos e deveres individuais e coletivos",
+              "focus": "Para direitos e deveres individuais e coletivos, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "c7006589",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-22",
+      "title": "Semana 22 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-079",
+              "track": "agente-geral",
+              "subject": "Direito Constitucional",
+              "goalId": "agente-geral:constitucional",
+              "title": "Aplicação guiada · Principios fundamentais",
+              "focus": "Para principios fundamentais, extraia regra, competência, condições, exceções e consequência. Aplique a sequência a dois casos curtos e indique qual fato mudaria a conclusão.",
+              "pdfKey": "f89661bb",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-080",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Funções, gráficos e interpretação de resultados",
+              "focus": "No estudo de funções, gráficos e interpretação de resultados, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "3ce6fae2",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-081",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Concordancia regencia colocacao crase e pontuacao",
+              "focus": "No estudo de concordancia regencia colocacao crase e pontuacao, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "b1ee2ac7",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-082",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "c4cf5566",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-083",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "eeca386c",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-084",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "dd848170",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-085",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "c7c0cab6",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-086",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "c17c02ee",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-087",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "fb638d1d",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-088",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Leitura, estrutura e precisão textual",
+              "focus": "No estudo de leitura, estrutura e precisão textual, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "4a947708",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-23",
+      "title": "Semana 23 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-089",
+              "track": "agente-geral",
+              "subject": "Língua Portuguesa",
+              "goalId": "agente-geral:portugues",
+              "title": "Aplicação guiada · Tipologias e generos textuais",
+              "focus": "No estudo de tipologias e generos textuais, identifique a ideia central e as pistas textuais. Resolva três questões e justifique cada resposta com uma regra ou trecho; reescreva uma frase sem alterar o sentido.",
+              "pdfKey": "25aea03a",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-090",
+              "track": "agente-geral",
+              "subject": "Estatística",
+              "goalId": "agente-geral:estatistica",
+              "title": "Questão de 2019 · Q12 · Testes de regressão após mudanças",
+              "focus": "Na questão 12 da Prova II, tipo 001, de Auditor TI (2019), reconstrua o raciocínio cobrado sobre testes de regressão após mudanças. Resolva primeiro sem consulta; depois compare sua justificativa com o material e registre o ponto que faltou.",
+              "pdfKey": "638031c9",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-091",
+              "track": "agente-geral",
+              "subject": "Estatística",
+              "goalId": "agente-geral:estatistica",
+              "title": "Aplicação guiada · Testes de hipoteses e estatistica inferencial",
+              "focus": "Para testes de hipoteses e estatistica inferencial, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "0635d69b",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-092",
+              "track": "agente-geral",
+              "subject": "Estatística",
+              "goalId": "agente-geral:estatistica",
+              "title": "Aplicação guiada · Tecnicas de amostragem",
+              "focus": "Para tecnicas de amostragem, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "07f37eab",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-093",
+              "track": "agente-geral",
+              "subject": "Estatística",
+              "goalId": "agente-geral:estatistica",
+              "title": "Aplicação guiada · Intervalos de confianca",
+              "focus": "Para intervalos de confianca, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "a73db265",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-094",
+              "track": "agente-geral",
+              "subject": "Estatística",
+              "goalId": "agente-geral:estatistica",
+              "title": "Aplicação guiada · Probabilidades",
+              "focus": "Para probabilidades, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "79570a34",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-095",
+              "track": "agente-geral",
+              "subject": "Estatística",
+              "goalId": "agente-geral:estatistica",
+              "title": "Aplicação guiada · Medidas de posicao",
+              "focus": "Para medidas de posicao, classifique os dados, resolva um exemplo com cálculo explícito e explique o que a medida permite concluir e o que ela não permite afirmar.",
+              "pdfKey": "44b45ef9",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-096",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · Proteção de direitos e aplicação da norma",
+              "focus": "Para proteção de direitos e aplicação da norma, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "b499427e",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-097",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · D2318d443896e5721de91ff139",
+              "focus": "Para d2318d443896e5721de91ff139, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "2d7926a1",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-098",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · E5fbc4255a2d76f859f1c2224",
+              "focus": "Para e5fbc4255a2d76f859f1c2224, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "db462c81",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "semana-24",
+      "title": "Semana 24 · Complemento de Agente",
+      "days": [
+        {
+          "day": 1,
+          "label": "Segunda-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-099",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · Lei n 11 340 2006 lei maria da penha",
+              "focus": "Para lei n 11 340 2006 lei maria da penha, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "1b88a116",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-100",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · 15 24 04 7ce06d30fc0d4e5583c25776e6b78376",
+              "focus": "Para 15 24 04 7ce06d30fc0d4e5583c25776e6b78376, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "e9760630",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "label": "Terça-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-101",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · Proteção de direitos e aplicação da norma",
+              "focus": "Para proteção de direitos e aplicação da norma, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "e7a11a5a",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-102",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · Lei n 7 437 1985 contravencoes penais a prática de atos resultantes de preconceito de raca de cor de sexo ou de estado civil",
+              "focus": "Para lei n 7 437 1985 contravencoes penais a prática de atos resultantes de preconceito de raca de cor de sexo ou de estado civil, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "8ecce124",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "label": "Quarta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-103",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · Lei n 2 889 1956 define e pune o crime de genocidio",
+              "focus": "Para lei n 2 889 1956 define e pune o crime de genocidio, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "190fe152",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 4,
+          "label": "Quinta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-acervo-104",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · Convencao internacional sobre a eliminacao de todas as formas de discriminacao racial",
+              "focus": "Para convencao internacional sobre a eliminacao de todas as formas de discriminacao racial, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "5d33ce61",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-acervo-105",
+              "track": "agente-geral",
+              "subject": "Noções de Igualdade Racial e de Gênero",
+              "goalId": "agente-geral:igualdade",
+              "title": "Aplicação guiada · Convencao sobre a eliminacao de todas as formas de discriminacao contra a mulher",
+              "focus": "Para convencao sobre a eliminacao de todas as formas de discriminacao contra a mulher, identifique o direito protegido, a conduta ou situação que ativa a norma e a resposta institucional. Aplique a regra a um caso e fundamente cada conclusão no material.",
+              "pdfKey": "6af90bef",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 5,
+          "label": "Sexta-feira",
+          "lessons": [
+            {
+              "id": "agente-geral-administracao-publica-s1-d2-2",
+              "track": "agente-geral",
+              "subject": "Administração Pública",
+              "goalId": "agente-geral:administracao-publica",
+              "title": "Organização da Administração Pública",
+              "focus": "Classifique os entes e entidades apresentados no PDF em administração direta ou indireta. Para cada exemplo, registre personalidade, vínculo e uma consequência prática.",
+              "pdfKey": "aee5931c",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        },
+        {
+          "day": 6,
+          "label": "Sábado",
+          "lessons": [
+            {
+              "id": "agente-geral-microeconomia-s3-d2-2",
+              "track": "agente-geral",
+              "subject": "Microeconomia",
+              "goalId": "agente-geral:microeconomia",
+              "title": "Preferências, escolha e demanda",
+              "focus": "Represente a decisão de consumo descrita no material e explique como uma mudança de renda ou preço altera a escolha. Resolva duas questões identificando a hipótese usada.",
+              "pdfKey": "6af089ce",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            },
+            {
+              "id": "agente-geral-administracao-publica-s5-d2-2",
+              "track": "agente-geral",
+              "subject": "Administração Pública",
+              "goalId": "agente-geral:administracao-publica",
+              "title": "Administração Pública: princípios e atuação",
+              "focus": "Separe princípio, agente, órgão e entidade nos exemplos do PDF. Escolha um caso e justifique qual princípio orienta a decisão e qual evidência permite revisá-la.",
+              "pdfKey": "aee5931c",
+              "pdfTrack": "agente-geral",
+              "durationMinutes": 45
+            }
+          ]
+        }
+      ]
+    }
+  ],
   sources: [
     {
       "id": "fcc-2019-ti-discursiva",
